@@ -1,9 +1,7 @@
-
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
-// Variables
-@import "variables";
-
-// Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+// Match form coloring
+.form-error {
+   color: #9F3A38;
+ }
+#app {
+  margin-top: 5em;
+}
