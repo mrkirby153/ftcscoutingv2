@@ -29,5 +29,14 @@ Vue.component('example', require('./components/Example.vue'));
 
 const app = new Vue({
     router,
-    el: '#app'
+    el: '#app',
+    data(){
+        return {
+            user: null
+        }
+    },
+
+    mounted(){
+        this.user = window.User;
+    }
 });

@@ -16,17 +16,15 @@
           integrity="sha256-5+W3JHnvGYIJkVxUBsw+jBi9+pOlu9enPX3vZapXj5M=" crossorigin="anonymous"/>
 
     <script>
-        window.User = {!!  Auth::guest()? "" : json_encode(Auth::user()) !!};
+        window.User = {!!  Auth::guest()? "null" : json_encode(Auth::user()) !!};
     </script>
 </head>
 <body>
 <div id="app">
     <div class="ui fixed menu">
         <div class="ui container">
-            <a href="{{url('/')}}" class="header item">
-                {{config('app.name', 'Laravel')}}
-            </a>
-            <router-link to="/test" class="header item">Test</router-link>
+            <router-link to="/" exact-active-class="" class="header item">{{config('app.name', 'Laravel')}}</router-link>
+            @include('layouts.nav')
             <div class="right menu">
                 @guest
                     <a href="{{route('register')}}" class="item">Register</a>
@@ -54,6 +52,11 @@
     </div>
 
     <div class="ui container">
+        @if (session('status'))
+            <div class="ui success message">
+                {{ session('status') }}
+            </div>
+        @endif
         <div class="ui grid">
             @yield('content')
         </div>

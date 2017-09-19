@@ -5,6 +5,13 @@ let routes = [
         path: '/',
         component: require('../components/Home.vue')
     },
+    {
+        path: '/dashboard',
+        component: require('../components/Dashboard.vue'),
+        meta: {
+            auth: true
+        }
+    }
 ];
 
 

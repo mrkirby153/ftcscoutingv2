@@ -1,0 +1,1 @@
+<router-link to="/dashboard" class="item" v-if="user">Dashboard</router-link>
