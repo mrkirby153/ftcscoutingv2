@@ -3,8 +3,8 @@ import VueRouter from 'vue-router';
 let routes = [
     {
         path: '/',
-        component: require('../components/Example.vue')
-    }
+        component: require('../components/Home.vue')
+    },
 ];
 
 

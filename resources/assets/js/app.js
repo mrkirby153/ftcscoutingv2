@@ -10,6 +10,8 @@ require('./bootstrap');
 require('./semantic');
 require('./form/form');
 
+require('./router/guards');
+
 window.Vue = require('vue');
 
 /**

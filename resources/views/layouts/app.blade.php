@@ -14,6 +14,10 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css"
           integrity="sha256-5+W3JHnvGYIJkVxUBsw+jBi9+pOlu9enPX3vZapXj5M=" crossorigin="anonymous"/>
+
+    <script>
+        window.User = {!!  Auth::guest()? "" : json_encode(Auth::user()) !!};
+    </script>
 </head>
 <body>
 <div id="app">
@@ -22,6 +26,7 @@
             <a href="{{url('/')}}" class="header item">
                 {{config('app.name', 'Laravel')}}
             </a>
+            <router-link to="/test" class="header item">Test</router-link>
             <div class="right menu">
                 @guest
                     <a href="{{route('register')}}" class="item">Register</a>
@@ -49,7 +54,9 @@
     </div>
 
     <div class="ui container">
-        @yield('content')
+        <div class="ui grid">
+            @yield('content')
+        </div>
     </div>
 </div>
 
