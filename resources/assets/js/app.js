@@ -1,5 +1,8 @@
 import VueRouter from 'vue-router';
 import router from './router/routes';
+import {store} from "./vuex/vuex";
+import {GET_USER_TEAMS} from "./vuex/mutationTypes";
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -23,6 +26,7 @@ window.Vue = require('vue');
 Vue.use(VueRouter);
 
 
+
 Vue.component('example', require('./components/Example.vue'));
 
 Vue.component('passport-clients', require('./components/passport/Clients.vue'));
@@ -33,6 +37,7 @@ Vue.component('passport-authorized', require('./components/passport/AuthorizedCl
 
 const app = new Vue({
     router,
+    store,
     el: '#app',
     data(){
         return {
@@ -42,5 +47,13 @@ const app = new Vue({
 
     mounted(){
         this.user = window.User;
+        this.$store.dispatch(GET_USER_TEAMS);
+    },
+
+    computed: {
+        teams(){
+            return this.$store.state.teams;
+        }
     }
+
 });

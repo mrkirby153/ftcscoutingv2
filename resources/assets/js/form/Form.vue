@@ -1,7 +1,7 @@
 <template>
     <div>
         <form class="ui form" :class="{'loading': form.busy, 'success': form.successful, 'error': form.errors.hasErrors()}"
-                @keydown="resetFormState($event.target.name)" @change="resetFormState($event.target.name)" @keyup.enter="submit()">
+                @keydown="resetFormState($event.target.name)" @change="resetFormState($event.target.name)" @keyup.enter="submit()" @submit.prevent="submit()">
             <div class="ui success message" style="margin-top: 15px">
                 <div class="header">
                     <slot name="successHeader">Success!</slot>

@@ -23,6 +23,8 @@
 </template>
 
 <script>
+    import {PUSH_USER_TEAM} from "../../vuex/mutationTypes";
+
     export default {
         data(){
             return {
@@ -38,6 +40,7 @@
             save(){
                 this.forms.createTeam.save().then(resp =>{
                     this.$router.push('/team/'+resp.data.id);
+                    this.$store.commit(PUSH_USER_TEAM, resp.data);
                 });
             }
         }

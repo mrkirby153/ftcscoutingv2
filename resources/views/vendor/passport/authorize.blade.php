@@ -56,19 +56,23 @@
                     @endif
 
                     <div class="buttons">
-                        <form method="post" action="oauth/authorize">
-                            {{csrf_field()}}
-                            <input type="hidden" name="state" value="{{$request->state}}">
-                            <input type="hidden" name="client_id" value="{{$client->id}}">
-                            <button class="ui green button" type="submit">Authorize</button>
+                        <!-- Authorize Button -->
+                        <form method="post" action="/oauth/authorize">
+                            {{ csrf_field() }}
+
+                            <input type="hidden" name="state" value="{{ $request->state }}">
+                            <input type="hidden" name="client_id" value="{{ $client->id }}">
+                            <button type="submit" class="ui green button">Authorize</button>
                         </form>
 
-                        <form method="post" action="oauth/authorize">
-                            {{csrf_field()}}
-                            {{method_field('DELETE')}}
-                            <input type="hidden" name="state" value="{{$request->state}}">
-                            <input type="hidden" name="client_id" value="{{$client->id}}">
-                            <button class="ui red button" type="submit">Cancel</button>
+                        <!-- Cancel Button -->
+                        <form method="post" action="/oauth/authorize">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+
+                            <input type="hidden" name="state" value="{{ $request->state }}">
+                            <input type="hidden" name="client_id" value="{{ $client->id }}">
+                            <button class="ui red button">Cancel</button>
                         </form>
                     </div>
                 </div>

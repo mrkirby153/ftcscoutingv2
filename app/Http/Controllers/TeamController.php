@@ -28,4 +28,12 @@ class TeamController extends Controller {
         ]);
         return $team;
     }
+
+    public function getTeams(Request $request){
+        $teams = array();
+        foreach($request->user()->teams as $team){
+            $teams[] = $team->team;
+        }
+        return $teams;
+    }
 }

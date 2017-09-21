@@ -23,4 +23,5 @@ Route::group(['prefix' => 'members'], function(){
 
 Route::group(['prefix'=>'teams'], function(){
     Route::put('/create', 'TeamController@createTeam')->name('team.create')->middleware('auth:api');
+    Route::get('/', 'TeamController@getTeams')->name('team.list')->middleware('auth:api');
 });

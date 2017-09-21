@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Team;
+use App\Models\TeamMember;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -32,5 +33,9 @@ class User extends Authenticatable
 
     public function ownedTeams(){
         return $this->hasMany(Team::class, 'owner_id');
+    }
+
+    public function teams(){
+        return $this->hasMany(TeamMember::class, 'user_email', 'email')->with('team');
     }
 }
