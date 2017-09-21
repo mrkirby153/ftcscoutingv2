@@ -24,6 +24,12 @@
                             <p>{{$errors->first('password')}}</p>
                         </div>
                     </div>
+                    <div class="field">
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="remember">
+                            <label>Remember Me</label>
+                        </div>
+                    </div>
                     <input type="submit" value="Log In" class="ui button"/>
                 </form>
 
