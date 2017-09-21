@@ -25,6 +25,10 @@ Vue.use(VueRouter);
 
 Vue.component('example', require('./components/Example.vue'));
 
+Vue.component('passport-clients', require('./components/passport/Clients.vue'));
+Vue.component('passport-tokens', require('./components/passport/PersonalAccessTokens.vue'));
+Vue.component('passport-authorized', require('./components/passport/AuthorizedClients.vue'));
+
 
 
 const app = new Vue({

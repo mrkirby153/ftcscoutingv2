@@ -12,8 +12,6 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css"
-          integrity="sha256-5+W3JHnvGYIJkVxUBsw+jBi9+pOlu9enPX3vZapXj5M=" crossorigin="anonymous"/>
 
     <script>
         window.User = {!!  Auth::guest()? "null" : json_encode(Auth::user()) !!};
@@ -35,6 +33,7 @@
                         {{Auth::user()->name}}
                         <i class="dropdown icon"></i>
                         <div class="menu">
+                            <router-link :to="{'name':'oauth.authorized'}" exact-active-class="" class="item">OAuth2</router-link>
                             <a href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();" class="item">

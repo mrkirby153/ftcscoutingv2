@@ -11,7 +11,29 @@ let routes = [
         meta: {
             auth: true
         }
-    }
+    },
+
+    {
+        path: '/oauth/',
+        component: require('../components/OAuth.vue'),
+        children: [
+            {
+                path: '',
+                component: require('../components/passport/AuthorizedClients.vue'),
+                name: 'oauth.authorized'
+            },
+            {
+                path: 'clients',
+                component: require('../components/passport/Clients.vue'),
+                name: 'oauth.clients'
+            },
+            {
+                path: 'tokens',
+                component: require('../components/passport/PersonalAccessTokens.vue'),
+                name: 'oauth.tokens'
+            }
+        ]
+    },
 ];
 
 
