@@ -20,3 +20,7 @@ Route::group(['prefix' => 'members'], function(){
     Route::put('/{team}/invite', 'TeamMemberController@inviteMember')->name('team.member.create');
     Route::delete('/{member}', 'TeamMemberController@removeMember')->name('team.member.remove');
 });
+
+Route::group(['prefix'=>'teams'], function(){
+    Route::put('/create', 'TeamController@createTeam')->name('team.create')->middleware('auth:api');
+});

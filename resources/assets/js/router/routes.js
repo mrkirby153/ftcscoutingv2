@@ -32,8 +32,19 @@ let routes = [
                 component: require('../components/passport/PersonalAccessTokens.vue'),
                 name: 'oauth.tokens'
             }
-        ]
+        ],
+        meta: {
+            auth: true
+        }
     },
+
+    {
+        path: '/team/create',
+        component: require('../components/teams/CreateTeam.vue'),
+        meta: {
+            auth: true
+        }
+    }
 ];
 
 

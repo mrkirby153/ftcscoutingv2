@@ -1,7 +1,7 @@
 <template>
     <div>
         <form class="ui form" :class="{'loading': form.busy, 'success': form.successful, 'error': form.errors.hasErrors()}"
-                @keydown="resetFormState($event.target.name)" @change="resetFormState($event.target.name)">
+                @keydown="resetFormState($event.target.name)" @change="resetFormState($event.target.name)" @keyup.enter="submit()">
             <div class="ui success message" style="margin-top: 15px">
                 <div class="header">
                     <slot name="successHeader">Success!</slot>
@@ -10,7 +10,7 @@
                     <slot name="success">Settings have been saved</slot>
                 </p>
             </div>
-            <slot name="inputs"></slot>
+            <slot></slot>
         </form>
     </div>
 </template>
@@ -25,6 +25,9 @@
                 this.form.errors.clear(element);
                 this.form.successful = false;
             },
+            submit(){
+                this.$emit('submit')
+            }
         }
     }
 </script>
