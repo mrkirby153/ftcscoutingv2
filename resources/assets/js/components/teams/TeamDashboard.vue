@@ -73,14 +73,13 @@
         },
 
         mounted() {
-            this.loaded = false;
-            axios.get(route('team.get', {team: this.$route.params.id})).then(resp => {
-                this.team = resp.data;
-                this.loaded = true;
-            }).catch(e=>{
-                this.loaded = true;
-                this.team = null;
-            })
+            this.getTeam();
+        },
+
+        watch: {
+          '$route' (to, from){
+              this.getTeam();
+          }
         },
 
         methods: {
@@ -95,6 +94,16 @@
             },
             acceptInvite(){
                 this.$store.dispatch(ACCEPT_MEMBER_INVITE, this.member.member_id);
+            },
+            getTeam(){
+                this.loaded = false;
+                axios.get(route('team.get', {team: this.$route.params.id})).then(resp => {
+                    this.team = resp.data;
+                    this.loaded = true;
+                }).catch(e=>{
+                    this.loaded = true;
+                    this.team = null;
+                })
             }
         }
     }
