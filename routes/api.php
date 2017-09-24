@@ -16,12 +16,14 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['prefix' => 'members'], function(){
+Route::group(['prefix' => 'members', 'middleware'=>'auth:api'], function(){
     Route::put('/{team}/invite', 'TeamMemberController@inviteMember')->name('team.member.create');
     Route::delete('/{member}', 'TeamMemberController@removeMember')->name('team.member.remove');
+    Route::patch('/{member}/accept', 'TeamMemberController@acceptInvite')->name('team.member.accept');
 });
 
 Route::group(['prefix'=>'teams'], function(){
     Route::put('/create', 'TeamController@createTeam')->name('team.create')->middleware('auth:api');
+    Route::get('/{team}', 'TeamController@getTeam')->name('team.get');
     Route::get('/', 'TeamController@getTeams')->name('team.list')->middleware('auth:api');
 });

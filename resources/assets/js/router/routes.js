@@ -37,6 +37,10 @@ let routes = [
             auth: true
         }
     },
+    {
+        path: '/team/:id',
+        component: require('../components/teams/TeamDashboard.vue')
+    },
 
     {
         path: '/team/create',

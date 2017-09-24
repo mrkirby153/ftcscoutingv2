@@ -25,4 +25,10 @@ class TeamMemberController extends Controller {
     public function removeMember(TeamMember $member) {
         $member->delete();
     }
+
+    public function acceptInvite(TeamMember $member) {
+        $member->pending = false;
+        $member->save();
+        return $member;
+    }
 }

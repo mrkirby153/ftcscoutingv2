@@ -13,6 +13,10 @@ class TeamMember extends Model {
 
     protected $fillable = ['id', 'user_email', 'team_id', 'pending'];
 
+    protected $casts = [
+        'pending' => 'boolean'
+    ];
+
     public function user() {
         return $this->belongsTo(User::class, 'user_email', 'email');
     }

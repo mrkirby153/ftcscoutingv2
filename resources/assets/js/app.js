@@ -26,7 +26,6 @@ window.Vue = require('vue');
 Vue.use(VueRouter);
 
 
-
 Vue.component('example', require('./components/Example.vue'));
 
 Vue.component('passport-clients', require('./components/passport/Clients.vue'));
@@ -34,25 +33,27 @@ Vue.component('passport-tokens', require('./components/passport/PersonalAccessTo
 Vue.component('passport-authorized', require('./components/passport/AuthorizedClients.vue'));
 
 
-
 const app = new Vue({
     router,
     store,
     el: '#app',
-    data(){
+    data() {
         return {
             user: null
         }
     },
 
-    mounted(){
+    mounted() {
         this.user = window.User;
         this.$store.dispatch(GET_USER_TEAMS);
     },
 
     computed: {
-        teams(){
-            return this.$store.state.teams;
+        teams() {
+            return this.$store.getters.teams;
+        },
+        pendingTeams() {
+            return this.$store.getters.pendingTeams;
         }
     }
 
