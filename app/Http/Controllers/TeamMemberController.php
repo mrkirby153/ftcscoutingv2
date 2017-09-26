@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TeamInvite;
 use App\Models\Team;
 use App\Models\TeamMember;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class TeamMemberController extends Controller {
             'id' => Keygen::alphanum(15)->generate(),
             'user_email' => $request->get('email')
         ]);
-        // TODO 9/21/17: Send an email to the invited user
+        \Mail::to($request->get('email'))->queue(new TeamInvite($team, $request->user(), $m));
         return $m;
     }
 
@@ -33,9 +34,13 @@ class TeamMemberController extends Controller {
         $member->delete();
     }
 
-    public function acceptInvite(TeamMember $member) {
+    public function acceptInvite(Request $request, TeamMember $member) {
         $member->pending = false;
         $member->save();
-        return $member;
+        if($request->expectsJson()){
+            return $member;
+        } else {
+            return redirect('/team/'.$member->team_id);
+        }
     }
 }

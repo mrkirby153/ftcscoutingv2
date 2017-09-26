@@ -20,7 +20,7 @@
 
                     <div class="field {{$errors->has('email')? 'error':''}}">
                         <label for="email">E-Mail Address</label>
-                        <input type="email" name="email" id="email" value="{{old('email')}}" required>
+                        <input type="email" name="email" id="email" value="{{isset($_GET['email'])? $_GET['email'] : old('email')}}" required {{isset($_GET['email'])? 'readonly':''}}>
                         <div class="form-error">
                             <p>{{$errors->first('email')}}</p>
                         </div>
@@ -41,6 +41,10 @@
                             <p>{{$errors->first('password_confirmation')}}</p>
                         </div>
                     </div>
+
+                    @if(isset($_GET['invite']))
+                        <input type="hidden" name="team_invite" value="{{$_GET['invite']}}"/>
+                    @endif
 
                     <input type="submit" class="ui button" value="Register"/>
                 </form>

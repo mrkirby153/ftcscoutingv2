@@ -14,6 +14,7 @@
 
 Auth::routes();
 
+Route::get('/invite/{member}/accept', 'TeamMemberController@acceptInvite')->name('invite.accept')->middleware('auth');
 Route::get('{any}', function () {
     return view('application');
 })->where('any', '.*');
