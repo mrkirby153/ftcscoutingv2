@@ -13,10 +13,11 @@
                             Decline Invite
                         </button>
                     </div>
-
-                    <div class="ui secondary menu">
+                    <div v-if="!member.pending_accept">
+                        <div class="ui secondary menu">
+                        </div>
+                        <router-view></router-view>
                     </div>
-                    <router-view></router-view>
                 </div>
                 <div class="ui attached segment" v-if="!member && loaded && team">
                     You are not a member of this team. If you would like to request join, click <a>Here</a>
