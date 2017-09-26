@@ -6,6 +6,10 @@ export class Form {
         for (let field in data) {
             this[field] = data[field];
         }
+        this.original = {};
+        for(let field in data) {
+            this.original[field] = data[field];
+        }
         this.errors = new FormErrors();
 
         this.busy = false;
@@ -23,6 +27,15 @@ export class Form {
     complete() {
         this.busy = false;
         this.successful = true;
+    }
+
+    reset(){
+        for(let field in this.original){
+            this[field] = this.original[field];
+        }
+        this.busy = false;
+        this.successful = false;
+        this.errors.clearAll();
     }
 
     submit(method, uri) {
