@@ -14,7 +14,16 @@
                         </button>
                     </div>
                     <div v-if="!member.pending_accept">
-                        <div class="ui secondary menu">
+                        <div class="ui secondary pointing labeled icon menu">
+                            <router-link :to="{name: 'team.overview', id: team.team_id}" activeClass="" class="item"><i
+                                    class="browser icon"></i>Team Overview
+                            </router-link>
+                            <router-link :to="{name: 'team.members', id: team.team_id}" class="item"><i
+                                    class="user icon"></i>Team Members
+                            </router-link>
+                            <router-link :to="{name: 'team.surveys', id: team.team_id}" class="item"><i
+                                    class="tasks icon"></i>Surveys
+                            </router-link>
                         </div>
                         <router-view></router-view>
                     </div>
@@ -78,9 +87,10 @@
         },
 
         watch: {
-          '$route' (to, from){
-              this.getTeam();
-          }
+            '$route'(to, from) {
+                if (to.params.id !== from.params.id)
+                    this.getTeam();
+            }
         },
 
         methods: {
@@ -93,15 +103,15 @@
                     this.$store.commit(REMOVE_TEAM_MEMBER, this.member.team_id);
                 })
             },
-            acceptInvite(){
+            acceptInvite() {
                 this.$store.dispatch(ACCEPT_MEMBER_INVITE, this.member.member_id);
             },
-            getTeam(){
+            getTeam() {
                 this.loaded = false;
                 axios.get(route('team.get', {team: this.$route.params.id})).then(resp => {
                     this.team = resp.data;
                     this.loaded = true;
-                }).catch(e=>{
+                }).catch(e => {
                     this.loaded = true;
                     this.team = null;
                 })

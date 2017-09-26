@@ -39,7 +39,25 @@ let routes = [
     },
     {
         path: '/team/:id',
-        component: require('../components/teams/TeamDashboard.vue')
+        component: require('../components/teams/TeamDashboard.vue'),
+        children: [
+            {
+                path: '',
+                component: require('../components/teams/TeamOverview.vue'),
+                name: 'team.overview'
+            },
+            {
+                path: 'members',
+                component: require('../components/teams/TeamMeber.vue'),
+                name: 'team.members'
+            },
+            {
+                path: 'surveys',
+                component: require('../components/teams/SurveyList.vue'),
+                name: 'team.surveys'
+            }
+        ]
+
     },
 
     {

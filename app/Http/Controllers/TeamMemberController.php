@@ -12,8 +12,15 @@ class TeamMemberController extends Controller {
 
     public function inviteMember(Request $request, Team $team) {
         $request->validate([
-            'email' => 'required'
+            'email' => 'required|email'
         ]);
+        if($team->members()->whereUserEmail($request->get('email'))->count() > 0){
+            return response()->json([
+                'errors' => [
+                    'email' => ['That user has already been invited!']
+                ]
+            ], 422);
+        }
         $m = $team->members()->create([
             'id' => Keygen::alphanum(15)->generate(),
             'user_email' => $request->get('email')

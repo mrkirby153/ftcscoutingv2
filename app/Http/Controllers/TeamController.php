@@ -25,7 +25,7 @@ class TeamController extends Controller {
         $this->members = $member;
     }
 
-    public function createTeam(Request $request){
+    public function createTeam(Request $request) {
         $request->validate([
             'name' => 'required|max:255',
             'team_number' => 'required|numeric|unique:teams,team_number'
@@ -46,13 +46,13 @@ class TeamController extends Controller {
         return $team;
     }
 
-    public function getTeams(Request $request){
+    public function getTeams(Request $request) {
         return \DB::table('team_members')->where('user_email', '=', $request->user()->email)
-            ->join('teams', 'team_members.team_id', '=',  'teams.id')
+            ->join('teams', 'team_members.team_id', '=', 'teams.id')
             ->get(['team_members.id as member_id', 'teams.id as team_id', 'pending as pending_accept', 'team_number', 'owner_id', 'name']);
     }
 
-    public function getTeam(Team $team){
-        return $team;
+    public function getTeam(Team $team) {
+        return $team->with('members')->with('members.user')->first();
     }
 }
