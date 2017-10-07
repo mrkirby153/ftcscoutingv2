@@ -50,4 +50,8 @@ class SurveyController extends Controller {
     public function get(Survey $survey) {
         return $survey->with('questions')->first();
     }
+
+    public function showSurveys(Team $team){
+        return $team->surveys;
+    }
 }

@@ -27,6 +27,7 @@ Route::group(['prefix' => 'teams'], function () {
     Route::get('/{team}', 'TeamController@getTeam')->name('team.get');
     Route::get('/', 'TeamController@getTeams')->name('team.list')->middleware('auth:api');
     Route::put('/{team}/createSurvey', 'SurveyController@createSurvey')->name('survey.create')->middleware('auth:api');
+    Route::get('/{team}/surveys', 'SurveyController@showSurveys')->name('survey.list')->middleware('auth:api');
 });
 
 Route::group(['prefix' => 'survey', 'middleware' => 'auth:api'], function () {
