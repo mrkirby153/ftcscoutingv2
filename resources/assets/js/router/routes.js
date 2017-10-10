@@ -66,6 +66,13 @@ let routes = [
         meta: {
             auth: true
         }
+    },
+    {
+        path: '/survey/:id',
+        component: require('../components/survey/SurveyView.vue'),
+        meta: {
+            auth: true
+        }
     }
 ];
 

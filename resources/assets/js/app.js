@@ -32,6 +32,8 @@ Vue.component('passport-clients', require('./components/passport/Clients.vue'));
 Vue.component('passport-tokens', require('./components/passport/PersonalAccessTokens.vue'));
 Vue.component('passport-authorized', require('./components/passport/AuthorizedClients.vue'));
 
+Vue.component('question-multiplechoice', require('./components/survey/components/MultipleChoice.vue'));
+
 
 const app = new Vue({
     router,

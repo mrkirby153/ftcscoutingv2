@@ -31,6 +31,7 @@ class Question extends Model {
      * @param $data object
      */
     public function setExtraDataAttribute($data) {
+        $data = (object) $data;
         $this->attributes['extra_data'] = is_object($data)? \GuzzleHttp\json_encode($data) : $data;
     }
 }

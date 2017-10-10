@@ -1,4 +1,8 @@
-import {PUSH_USER_TEAM, REMOVE_TEAM_MEMBER, SET_ACCEPTED, SET_USER_TEAMS} from "./mutationTypes";
+import {
+    PUSH_USER_TEAM, REMOVE_QUESTION_FROM_SURVEY, REMOVE_TEAM_MEMBER, SET_ACCEPTED, SET_EDITING_QUESTION,
+    SET_QUESTION_DATA, SET_SURVEY,
+    SET_USER_TEAMS, UPDATE_QUESTION_DATA
+} from "./mutationTypes";
 
 export default {
     [SET_USER_TEAMS](state, payload) {
@@ -16,5 +20,22 @@ export default {
                 t.pending_accept = false;
             }
         })
+    },
+    [SET_SURVEY](state, payload){
+        state.survey = payload;
+    },
+    [SET_EDITING_QUESTION](state, payload){
+        state.editingQuestion = payload;
+    },
+    [UPDATE_QUESTION_DATA](state, payload){
+        state.survey.questions.forEach(d => {
+            if(d.id === payload.id){
+                d.extra_data = payload.data;
+                d.question_name = payload.title;
+            }
+        });
+    },
+    [REMOVE_QUESTION_FROM_SURVEY](state, payload){
+        state.survey.questions = _.reject(state.survey.questions, q => q.id === payload);
     }
 }

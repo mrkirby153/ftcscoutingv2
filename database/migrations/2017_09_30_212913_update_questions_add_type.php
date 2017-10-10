@@ -14,7 +14,7 @@ class UpdateQuestionsAddType extends Migration
     public function up()
     {
         Schema::table('survey_questions', function (Blueprint $table) {
-            $table->enum('type', ['TEXT', 'LONG_TEXT', 'NUMBER', 'MULTIPLE_CHOICE'])->after('question_name');
+            $table->enum('type', ['TEXT', 'LONG_TEXT', 'NUMBER', 'MULTIPLE_CHOICE', 'RADIO'])->after('question_name');
         });
     }
 
