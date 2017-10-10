@@ -13,9 +13,9 @@
                     <div v-for="option in question.extra_data.items">
                         <div v-bind:class="{ 'ui checkbox': checkbox, 'ui radio checkbox': !checkbox }">
                             <input type="checkbox" v-model="data" :value="option.name" :id="slugify(option.name)"
-                                   v-if="checkbox" :disabled="editable">
+                                   v-if="checkbox" :disabled="editable" @change="change()">
                             <input type="radio" v-model="data" :value="option.name" :id="slugify(option.name)"
-                                   v-if="!checkbox" :disabled="editable">
+                                   v-if="!checkbox" :disabled="editable" @change="change()">
                             <label>{{option.name}}</label>
                         </div>
                     </div>
@@ -44,7 +44,12 @@
 </template>
 
 <script>
-    import {DELETE_QUESTION, SET_EDITING_QUESTION, SET_QUESTION_DATA} from "../../../vuex/mutationTypes";
+    import {
+        DELETE_QUESTION,
+        SET_EDITING_QUESTION,
+        SET_QUESTION_DATA,
+        SET_RESPONSE_DATA
+    } from "../../../vuex/mutationTypes";
 
     export default {
         data() {
@@ -122,6 +127,9 @@
             },
             deleteQuestion() {
                 this.$store.dispatch(DELETE_QUESTION, this.id);
+            },
+            change(){
+                this.$store.commit(SET_RESPONSE_DATA, {question: this.id, response: this.data})
             }
         }
 

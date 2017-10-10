@@ -3,12 +3,11 @@
 </style>
 
 <template>
-    <div class="row">
-        <div class="column">
-            <div class="ui top attached header">
-                {{survey.name}}
-            </div>
-            <survey-questions :editable="false"/>
+    <div class="ui attached segment">
+        <div v-for="question in questions" :key="question.id">
+            <question-multiplechoice :checkbox="question.type=='MULTIPLE_CHOICE'" :id="question.id"
+                                     :editable="editable"
+                                     v-if="question.type=='MULTIPLE_CHOICE' || question.type=='RADIO'"></question-multiplechoice>
         </div>
     </div>
 </template>
@@ -17,11 +16,6 @@
     import {GET_SURVEY} from "../../vuex/mutationTypes";
 
     export default {
-        data() {
-            return {
-                surveyData: {},
-            }
-        },
 
         computed: {
             survey() {
@@ -29,6 +23,13 @@
             },
             questions() {
                 return this.survey.questions;
+            }
+        },
+
+        props: {
+            editable: {
+                type: Boolean,
+                required: true
             }
         },
 

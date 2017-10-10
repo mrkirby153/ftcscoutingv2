@@ -1,6 +1,6 @@
 import {
     PUSH_USER_TEAM, REMOVE_QUESTION_FROM_SURVEY, REMOVE_TEAM_MEMBER, SET_ACCEPTED, SET_EDITING_QUESTION,
-    SET_QUESTION_DATA, SET_SURVEY,
+    SET_QUESTION_DATA, SET_RESPONSE_DATA, SET_SURVEY,
     SET_USER_TEAMS, UPDATE_QUESTION_DATA
 } from "./mutationTypes";
 
@@ -14,28 +14,31 @@ export default {
     [REMOVE_TEAM_MEMBER](state, payload) {
         state.teams = state.teams.filter(t => t.team_id !== payload)
     },
-    [SET_ACCEPTED](state, payload){
+    [SET_ACCEPTED](state, payload) {
         state.teams.forEach(t => {
-            if(t.member_id === payload){
+            if (t.member_id === payload) {
                 t.pending_accept = false;
             }
         })
     },
-    [SET_SURVEY](state, payload){
+    [SET_SURVEY](state, payload) {
         state.survey = payload;
     },
-    [SET_EDITING_QUESTION](state, payload){
+    [SET_EDITING_QUESTION](state, payload) {
         state.editingQuestion = payload;
     },
-    [UPDATE_QUESTION_DATA](state, payload){
+    [UPDATE_QUESTION_DATA](state, payload) {
         state.survey.questions.forEach(d => {
-            if(d.id === payload.id){
+            if (d.id === payload.id) {
                 d.extra_data = payload.data;
                 d.question_name = payload.title;
             }
         });
     },
-    [REMOVE_QUESTION_FROM_SURVEY](state, payload){
+    [REMOVE_QUESTION_FROM_SURVEY](state, payload) {
         state.survey.questions = _.reject(state.survey.questions, q => q.id === payload);
+    },
+    [SET_RESPONSE_DATA](state, payload) {
+        state.response[payload.question] = payload.response;
     }
 }

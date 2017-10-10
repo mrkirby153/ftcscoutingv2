@@ -1,5 +1,6 @@
 export default {
     teams: [],
     survey: {},
-    editingQuestion: null
+    editingQuestion: null,
+    response: {}
 }
