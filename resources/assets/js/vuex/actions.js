@@ -29,13 +29,11 @@ export default {
         context.commit(UPDATE_QUESTION_DATA, {
             id: questionId,
             title: title,
-            data: {items: data}
+            data: data
         });
         axios.patch(route('survey.question.update', {survey: context.state.survey.id, question: questionId}), {
             question_name: title,
-            extra_data: {
-                items: data
-            }
+            extra_data: data
         }).then(resp => {
             context.commit(SET_EDITING_QUESTION, null)
         });

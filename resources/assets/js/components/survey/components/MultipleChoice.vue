@@ -122,7 +122,7 @@
                 this.$store.dispatch(SET_QUESTION_DATA, {
                     id: this.id,
                     title: this.editData.name,
-                    data: this.editData.options
+                    data: {items:this.editData.options}
                 });
             },
             deleteQuestion() {
