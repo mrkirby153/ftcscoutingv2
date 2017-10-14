@@ -17,3 +17,5 @@ export const REMOVE_QUESTION_FROM_SURVEY = 'remove_q_from_survey';
 
 export const SET_RESPONSE_DATA = 'set_response_data';
 export const CLEAR_RESPONSE_DATA = 'clear_response_data';
+
+export const SET_LOADING = 'set_loading';

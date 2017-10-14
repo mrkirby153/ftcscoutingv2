@@ -9,7 +9,7 @@
                 {{survey.name}}
             </div>
             <div class="ui attached segment">
-                <div class="ui form">
+                <div class="ui form" :class="{'loading': loading}">
                     <div class="field">
                         <label>Team Number</label>
                         <input type="number" @keyup.stop="commit('team_number', $event.target.value)" :value="response.team_number"/>
@@ -20,6 +20,9 @@
                     </div>
                     <hr/>
                     <survey-questions :editable="false"/>
+                    <div style="margin-top: 10px">
+                        <button class="ui fluid button">Submit</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -42,6 +45,9 @@
             response() {
                 return this.$store.state.response;
             },
+            loading(){
+                return this.$store.state.loading;
+            }
         },
 
         mounted() {

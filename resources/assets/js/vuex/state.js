@@ -2,5 +2,6 @@ export default {
     teams: [],
     survey: {},
     editingQuestion: null,
-    response: {}
+    response: {},
+    loading: false
 }

@@ -3,7 +3,7 @@ import state from './state';
 import {
     ACCEPT_MEMBER_INVITE, DELETE_QUESTION, DISPATCH_SURVEY_QUESTION_TYPE, GET_SURVEY, GET_USER_TEAMS,
     REMOVE_QUESTION_FROM_SURVEY, SET_ACCEPTED,
-    SET_EDITING_QUESTION,
+    SET_EDITING_QUESTION, SET_LOADING,
     SET_QUESTION_DATA, SET_SURVEY, SET_SURVEY_QUESTION_TYPE,
     SET_USER_TEAMS, UPDATE_QUESTION_DATA
 } from "./mutationTypes";
@@ -15,13 +15,17 @@ export default {
         })
     },
     [ACCEPT_MEMBER_INVITE](context, data) {
+        context.commit(SET_LOADING, true);
         axios.patch(route('team.member.accept', {member: data})).then(resp => {
             context.commit(SET_ACCEPTED, data);
+            context.commit(SET_LOADING, false);
         });
     },
     [GET_SURVEY](context, data) {
+        context.commit(SET_LOADING, true);
         axios.get(route('survey.get', {survey: data})).then(resp => {
-            context.commit(SET_SURVEY, resp.data)
+            context.commit(SET_SURVEY, resp.data);
+            context.commit(SET_LOADING, false);
         })
     },
     [SET_QUESTION_DATA](context, payload) {
