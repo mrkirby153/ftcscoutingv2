@@ -68,6 +68,9 @@ export default {
         axios.put(route('survey.commit', {survey: state.survey.id}), state.response).then(resp => {
             context.commit(SET_LOADING, false);
             context.commit(CLEAR_RESPONSE_DATA);
+        }).catch(resp => {
+            context.commit(SET_LOADING, false);
+            toastr["error"]("An error occurred when submitting the survey. Please try again", "Error");
         })
     }
 }
