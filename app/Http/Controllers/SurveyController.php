@@ -47,6 +47,11 @@ class SurveyController extends Controller {
         return $question;
     }
 
+    public function setQuestionType(Request $request, Survey $survey, Question $question){
+        $question->type = $request->get('type');
+        $question->save();
+    }
+
     public function get(Survey $survey) {
         return $survey->with('questions')->first();
     }

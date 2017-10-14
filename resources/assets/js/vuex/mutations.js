@@ -1,7 +1,7 @@
 import {
     CLEAR_RESPONSE_DATA,
     PUSH_USER_TEAM, REMOVE_QUESTION_FROM_SURVEY, REMOVE_TEAM_MEMBER, SET_ACCEPTED, SET_EDITING_QUESTION,
-    SET_QUESTION_DATA, SET_RESPONSE_DATA, SET_SURVEY,
+    SET_QUESTION_DATA, SET_RESPONSE_DATA, SET_SURVEY, SET_SURVEY_QUESTION_TYPE,
     SET_USER_TEAMS, UPDATE_QUESTION_DATA
 } from "./mutationTypes";
 
@@ -44,5 +44,14 @@ export default {
     },
     [CLEAR_RESPONSE_DATA](state, payload) {
         state.response = {};
+    },
+    [SET_SURVEY_QUESTION_TYPE](state, payload) {
+        let id = payload.id;
+        let type = payload.type;
+        state.survey.questions.forEach(d => {
+            if (d.id === id) {
+                d.type = type;
+            }
+        })
     }
 }

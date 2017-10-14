@@ -36,4 +36,5 @@ Route::group(['prefix' => 'survey', 'middleware' => 'auth:api'], function () {
     Route::delete('/{survey}', 'SurveyController@deleteSurvey')->name('survey.delete');
     Route::patch('/{survey}/questions/{question}', 'SurveyController@editQuestion')->name('survey.question.update');
     Route::delete('/{survey}/questions/{question}', 'SurveyController@deleteQuestion')->name('survey.question.delete');
+    Route::patch('/{survey}/questions/{question}/type', 'SurveyController@setQuestionType')->name('survey.question.type');
 });

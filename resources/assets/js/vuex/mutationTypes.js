@@ -11,6 +11,8 @@ export const SET_EDITING_QUESTION = 'set_edit_question';
 export const SET_QUESTION_DATA = 'set_question_data';
 export const UPDATE_QUESTION_DATA = 'update_question_data';
 export const DELETE_QUESTION = 'delete_question';
+export const SET_SURVEY_QUESTION_TYPE = 'set_q_type';
+export const DISPATCH_SURVEY_QUESTION_TYPE = 'dispatch_q_type';
 export const REMOVE_QUESTION_FROM_SURVEY = 'remove_q_from_survey';
 
 export const SET_RESPONSE_DATA = 'set_response_data';

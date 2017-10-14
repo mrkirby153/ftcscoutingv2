@@ -36,6 +36,9 @@
                         <input type="text" v-model="editData.options[index].name"/>
                     </div>
                 </div>
+                <div class="row m-10-top">
+                    <type-selector :id="id"/>
+                </div>
                 <button class="ui icon button m-10-top" @click="addOption()"><i class="plus icon"></i> Add Option
                 </button>
                 <button class="ui icon button m-10-top" @click="save()"><i class="save icon"></i> Save</button>

@@ -32,6 +32,9 @@
                         <textarea rows="3" disabled></textarea>
                     </div>
                 </div>
+                <div class="row m-10-top">
+                    <type-selector :id="id"/>
+                </div>
                 <button class="ui icon button m-10-top" @click="save()"><i class="save icon"></i> Save</button>
                 <button class="ui icon button m-10-top" @click="deleteQuestion()"><i class="x icon"></i> Delete</button>
             </div>
