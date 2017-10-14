@@ -33,6 +33,7 @@ Vue.component('passport-tokens', require('./components/passport/PersonalAccessTo
 Vue.component('passport-authorized', require('./components/passport/AuthorizedClients.vue'));
 
 Vue.component('question-multiplechoice', require('./components/survey/components/MultipleChoice.vue'));
+Vue.component('question-text', require('./components/survey/components/Text.vue'));
 Vue.component('survey-questions', require('./components/survey/SurveyQuestions.vue'));
 
 

@@ -3,11 +3,13 @@
 </style>
 
 <template>
-    <div class="ui attached segment">
+    <div>
         <div v-for="question in questions" :key="question.id">
             <question-multiplechoice :checkbox="question.type=='MULTIPLE_CHOICE'" :id="question.id"
                                      :editable="editable"
                                      v-if="question.type=='MULTIPLE_CHOICE' || question.type=='RADIO'"></question-multiplechoice>
+            <question-text :id="question.id" :editable="editable"
+                           v-if="question.type==='TEXT' || question.type==='LONG_TEXT'"></question-text>
         </div>
     </div>
 </template>

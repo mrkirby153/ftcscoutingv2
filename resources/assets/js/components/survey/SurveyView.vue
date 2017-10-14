@@ -8,18 +8,30 @@
             <div class="ui top attached header">
                 {{survey.name}}
             </div>
-            <survey-questions :editable="false"/>
+            <div class="ui attached segment">
+                <div class="ui form">
+                    <div class="field">
+                        <label>Team Number</label>
+                        <input type="number" @keyup.stop="commit('team_number', $event.target.value)" :value="response.team_number"/>
+                    </div>
+                    <div class="field">
+                        <label>Match Number</label>
+                        <input type="number" @keyup.stop="commit('match_number', $event.target.value)" :value="response.match_number"/>
+                    </div>
+                    <hr/>
+                    <survey-questions :editable="false"/>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-    import {GET_SURVEY} from "../../vuex/mutationTypes";
+    import {CLEAR_RESPONSE_DATA, GET_SURVEY, SET_RESPONSE_DATA} from "../../vuex/mutationTypes";
 
     export default {
         data() {
             return {
-                surveyData: {},
             }
         },
 
@@ -27,9 +39,9 @@
             survey() {
                 return this.$store.state.survey;
             },
-            questions() {
-                return this.survey.questions;
-            }
+            response() {
+                return this.$store.state.response;
+            },
         },
 
         mounted() {
@@ -39,6 +51,12 @@
         methods: {
             retrieveData() {
                 this.$store.dispatch(GET_SURVEY, this.$route.params.id);
+            },
+            commit(type, data) {
+                this.$store.commit(SET_RESPONSE_DATA, {question: type, response: data});
+            },
+            clearResponseData() {
+                this.$store.commit(CLEAR_RESPONSE_DATA, {});
             }
         }
     }

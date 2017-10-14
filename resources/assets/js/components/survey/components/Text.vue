@@ -9,18 +9,13 @@
         <div :class="{'ui segment' : editing}" v-if="question" @click="openEdit()">
             <div v-if="!editing">
                 <h3>{{question.question_name}}</h3>
-                <div class="field">
-                    <div v-for="option in question.extra_data.items">
-                        <div v-bind:class="{ 'ui checkbox': checkbox, 'ui radio checkbox': !checkbox }">
-                            <input type="checkbox" :value="option.name" :name="id+'-checkbox'"
-                                   v-if="checkbox" :disabled="editable" @change="change()"
-                                   :checked="shouldCheck(option.name)">
-                            <input type="radio" :value="option.name" :name="id+'-checkbox'"
-                                   v-if="!checkbox" :disabled="editable" @change="change()"
-                                   :checked="shouldCheck(option.name)">
-                            <label>{{option.name}}</label>
-                        </div>
-                    </div>
+                <div class="ui fluid input" v-if="question.type == 'TEXT'">
+                    <input type="text" @keyup.stop="change($event.target.value)" :value="response[id]"
+                           :disabled="editable"/>
+                </div>
+                <div class="ui form field" v-if="question.type=='LONG_TEXT'">
+                    <textarea rows="3" @keyup.stop="change($event.target.value)" :value="response[id]"
+                              :disabled="editable"></textarea>
                 </div>
             </div>
             <div v-if="editing">
@@ -29,15 +24,14 @@
                         <input type="text" v-model="editData.name" placeholder="Question Name"/>
                     </div>
                 </div>
-                <h5>Options</h5>
-                <div class="row" v-for="(option, index) in editData.options">
-                    <div class="ui fluid icon input m-10-top">
-                        <i class="circular x link icon" @click="removeOption(index)"></i>
-                        <input type="text" v-model="editData.options[index].name"/>
+                <div class="row">
+                    <div class="ui fluid input" v-if="question.type == 'TEXT'">
+                        <input type="text" disabled/>
+                    </div>
+                    <div class="ui form field" v-if="question.type=='LONG_TEXT'">
+                        <textarea rows="3" disabled></textarea>
                     </div>
                 </div>
-                <button class="ui icon button m-10-top" @click="addOption()"><i class="plus icon"></i> Add Option
-                </button>
                 <button class="ui icon button m-10-top" @click="save()"><i class="save icon"></i> Save</button>
                 <button class="ui icon button m-10-top" @click="deleteQuestion()"><i class="x icon"></i> Delete</button>
             </div>
@@ -56,30 +50,19 @@
     export default {
         data() {
             return {
-                data: null,
+                data: "",
                 editData: {
-                    name: "",
-                    options: []
+                    name: ""
                 }
             }
         },
         props: {
-            checkbox: {
-                required: true
-            },
             editable: {
                 default: false
             },
             id: {
                 required: true
             }
-        },
-
-        mounted() {
-            if (this.checkbox)
-                this.data = [];
-            else
-                this.data = {};
         },
 
         computed: {
@@ -111,42 +94,20 @@
                     return;
                 this.$store.commit(SET_EDITING_QUESTION, this.id);
                 this.editData.name = this.question.question_name;
-                this.editData.options = this.question.extra_data.items;
-            },
-            addOption() {
-                this.editData.options.push({
-                    name: ""
-                })
-            },
-
-            removeOption(index) {
-                this.editData.options.splice(index, 1);
             },
 
             save() {
                 this.$store.dispatch(SET_QUESTION_DATA, {
                     id: this.id,
                     title: this.editData.name,
-                    data: {items: this.editData.options}
+                    data: {}
                 });
             },
             deleteQuestion() {
                 this.$store.dispatch(DELETE_QUESTION, this.id);
             },
             change(data) {
-                let d = [];
-                document.getElementsByName(this.id + '-checkbox').forEach(obj => {
-                    if (obj.checked) {
-                        d.push(obj.value);
-                    }
-                });
-                this.$store.commit(SET_RESPONSE_DATA, {question: this.id, response: d});
-            },
-            shouldCheck(name) {
-                let obj = this.response[this.id];
-                if (obj === undefined)
-                    return false;
-                return obj.includes(name);
+                this.$store.commit(SET_RESPONSE_DATA, {question: this.id, response: data})
             }
         }
 
