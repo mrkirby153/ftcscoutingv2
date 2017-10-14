@@ -21,6 +21,8 @@ export default {
         axios.patch(route('team.member.accept', {member: data})).then(resp => {
             context.commit(SET_ACCEPTED, data);
             context.commit(SET_LOADING, false);
+        }).catch(resp => {
+            toastr["error"]("An error occurred, please try again", "Error")
         });
     },
     [GET_SURVEY](context, data) {
@@ -28,6 +30,8 @@ export default {
         axios.get(route('survey.get', {survey: data})).then(resp => {
             context.commit(SET_SURVEY, resp.data);
             context.commit(SET_LOADING, false);
+        }).catch(resp => {
+            toastr["error"]("An error occurred, please try again", "Error");
         })
     },
     [SET_QUESTION_DATA](context, payload) {
@@ -44,6 +48,8 @@ export default {
             extra_data: data
         }).then(resp => {
             context.commit(SET_EDITING_QUESTION, null)
+        }).catch(resp => {
+            toastr["error"]("An error occurred, please try again", "Error")
         });
     },
     [DELETE_QUESTION](context, payload) {
@@ -52,6 +58,8 @@ export default {
             question: payload
         })).then(resp => {
             context.commit(REMOVE_QUESTION_FROM_SURVEY, payload)
+        }).catch(resp => {
+            toastr["error"]("An error occurred, please try again", "Error")
         });
     },
     [DISPATCH_SURVEY_QUESTION_TYPE](context, payload) {
@@ -66,6 +74,7 @@ export default {
     [COMMIT_SURVEY_DATA](context) {
         context.commit(SET_LOADING, true);
         axios.put(route('survey.commit', {survey: state.survey.id}), state.response).then(resp => {
+            toastr["success"]("Your response has been recorded!", "Success")
             context.commit(SET_LOADING, false);
             context.commit(CLEAR_RESPONSE_DATA);
         }).catch(resp => {
