@@ -12,7 +12,9 @@ class Response extends Model {
 
     protected $fillable = [
         'id',
-        'user_id'
+        'user_id',
+        'team_number',
+        'match_number'
     ];
 
 

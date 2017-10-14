@@ -1,7 +1,9 @@
 import axios from 'axios';
 import state from './state';
 import {
-    ACCEPT_MEMBER_INVITE, DELETE_QUESTION, DISPATCH_SURVEY_QUESTION_TYPE, GET_SURVEY, GET_USER_TEAMS,
+    ACCEPT_MEMBER_INVITE, CLEAR_RESPONSE_DATA, COMMIT_SURVEY_DATA, DELETE_QUESTION, DISPATCH_SURVEY_QUESTION_TYPE,
+    GET_SURVEY,
+    GET_USER_TEAMS,
     REMOVE_QUESTION_FROM_SURVEY, SET_ACCEPTED,
     SET_EDITING_QUESTION, SET_LOADING,
     SET_QUESTION_DATA, SET_SURVEY, SET_SURVEY_QUESTION_TYPE,
@@ -44,12 +46,15 @@ export default {
             context.commit(SET_EDITING_QUESTION, null)
         });
     },
-    [DELETE_QUESTION](context, payload){
-        axios.delete(route('survey.question.delete', {survey: context.state.survey.id, question: payload})).then(resp => {
+    [DELETE_QUESTION](context, payload) {
+        axios.delete(route('survey.question.delete', {
+            survey: context.state.survey.id,
+            question: payload
+        })).then(resp => {
             context.commit(REMOVE_QUESTION_FROM_SURVEY, payload)
         });
     },
-    [DISPATCH_SURVEY_QUESTION_TYPE](context, payload){
+    [DISPATCH_SURVEY_QUESTION_TYPE](context, payload) {
         let id = payload.id;
         let type = payload.type;
         axios.patch(route('survey.question.type', {survey: state.survey.id, question: id}), {
@@ -57,5 +62,12 @@ export default {
         }).then(resp => {
             context.commit(SET_SURVEY_QUESTION_TYPE, payload);
         });
+    },
+    [COMMIT_SURVEY_DATA](context) {
+        context.commit(SET_LOADING, true);
+        axios.put(route('survey.commit', {survey: state.survey.id}), state.response).then(resp => {
+            context.commit(SET_LOADING, false);
+            context.commit(CLEAR_RESPONSE_DATA);
+        })
     }
 }

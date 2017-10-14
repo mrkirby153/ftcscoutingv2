@@ -12,16 +12,18 @@
                 <div class="ui form" :class="{'loading': loading}">
                     <div class="field">
                         <label>Team Number</label>
-                        <input type="number" @keyup.stop="commit('team_number', $event.target.value)" :value="response.team_number"/>
+                        <input type="number" @keyup.stop="commit('team_number', $event.target.value)"
+                               :value="response.team_number"/>
                     </div>
                     <div class="field">
                         <label>Match Number</label>
-                        <input type="number" @keyup.stop="commit('match_number', $event.target.value)" :value="response.match_number"/>
+                        <input type="number" @keyup.stop="commit('match_number', $event.target.value)"
+                               :value="response.match_number"/>
                     </div>
                     <hr/>
                     <survey-questions :editable="false"/>
                     <div style="margin-top: 10px">
-                        <button class="ui fluid button">Submit</button>
+                        <button class="ui fluid button" :class="{'loading': loading}" @click="submit()">Submit</button>
                     </div>
                 </div>
             </div>
@@ -30,12 +32,11 @@
 </template>
 
 <script>
-    import {CLEAR_RESPONSE_DATA, GET_SURVEY, SET_RESPONSE_DATA} from "../../vuex/mutationTypes";
+    import {CLEAR_RESPONSE_DATA, COMMIT_SURVEY_DATA, GET_SURVEY, SET_RESPONSE_DATA} from "../../vuex/mutationTypes";
 
     export default {
         data() {
-            return {
-            }
+            return {}
         },
 
         computed: {
@@ -45,7 +46,7 @@
             response() {
                 return this.$store.state.response;
             },
-            loading(){
+            loading() {
                 return this.$store.state.loading;
             }
         },
@@ -63,6 +64,9 @@
             },
             clearResponseData() {
                 this.$store.commit(CLEAR_RESPONSE_DATA, {});
+            },
+            submit() {
+                this.$store.dispatch(COMMIT_SURVEY_DATA);
             }
         }
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\DeleteSurvey;
 use App\Models\Surveys\Question;
+use App\Models\Surveys\ResponseData;
 use App\Models\Surveys\Survey;
 use App\Models\Team;
 use Illuminate\Http\Request;
@@ -47,7 +48,7 @@ class SurveyController extends Controller {
         return $question;
     }
 
-    public function setQuestionType(Request $request, Survey $survey, Question $question){
+    public function setQuestionType(Request $request, Survey $survey, Question $question) {
         $question->type = $request->get('type');
         $question->save();
     }
@@ -56,7 +57,27 @@ class SurveyController extends Controller {
         return $survey->with('questions')->first();
     }
 
-    public function showSurveys(Team $team){
+    public function showSurveys(Team $team) {
         return $team->surveys;
+    }
+
+    public function processSubmit(Request $request, Survey $survey) {
+        \Log::info($request);
+        $matchNumber = $request->get('match_number');
+        $teamNumber = $request->get('team_number');
+        $resp = $survey->responses()->create([
+            'id' => Keygen::alphanum(15)->generate(),
+            'user_id' => \Auth::id(),
+            'team_number' => $teamNumber,
+            'match_number' => $matchNumber
+        ]);
+        foreach ($survey->questions as $question) {
+            $d = new ResponseData();
+            $d->id = Keygen::alphanum(15)->generate();
+            $d->response_id = $resp->id;
+            $d->question_id = $question->id;
+            $d->response_data = $request->get($question->id);
+            $d->save();
+        }
     }
 }
