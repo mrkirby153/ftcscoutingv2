@@ -34,7 +34,7 @@
             </div>
             <div class="content">
                 <p>
-                    Enter the email of the user you wish to invite to the team. If the user does not have an account
+                    Enter the emails (one per line) of the users you wish to invite. If they do not have an account,
                     they will be prompted to create one
                 </p>
                 <form-wrapper :form="forms.inviteUser" @submit="inviteUser">
@@ -42,8 +42,8 @@
                         User Invited!
                     </div>
                     <form-field name="email" required="true" :form="forms.inviteUser">
-                        <label>User E-Mail</label>
-                        <input type="text" v-model="forms.inviteUser.email" name="email"/>
+                        <label>User E-Mails</label>
+                        <textarea v-model="forms.inviteUser.email" name="email" rows="5" :disabled="forms.inviteUser.busy"></textarea>
                     </form-field>
                 </form-wrapper>
             </div>
@@ -95,9 +95,10 @@
                 this.forms.inviteUser.reset();
                 $("#add-member-modal").modal('show');
             },
-            inviteUser(){
+            inviteUser() {
                 this.forms.inviteUser.save().then(resp => {
                     this.getTeamInfo();
+                    this.forms.inviteUser.email = '';
                 });
             }
         }
