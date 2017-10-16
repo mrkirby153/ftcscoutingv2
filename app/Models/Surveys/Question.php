@@ -10,7 +10,7 @@ class Question extends Model {
     public $incrementing = false;
 
     protected $fillable = [
-        'id', 'question_name', 'extra_data'
+        'id', 'survey_id', 'type', 'question_name', 'extra_data'
     ];
 
 

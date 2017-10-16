@@ -16,11 +16,29 @@ class SurveyController extends Controller {
         $request->validate([
             'name' => 'required|max:255'
         ]);
-        return $team->surveys()->create([
+        $survey = $team->surveys()->create([
             'id' => Keygen::alphanum(15)->generate(),
             'name' => $request->get('name'),
             'created_by' => $request->user()->id
         ]);
+        if ($request->has('clone-from') && $request->get('clone-from') != "") {
+            \Log::debug("Cloning from survey " . $request->get('clone-from'));
+            // Clone the survey
+            $toClone = Survey::whereId($request->get('clone-from'))->with('questions')->first();
+            if ($toClone == null) {
+                return response()->json(["errors" => ["clone-from" => ['That survey does not exist']]], 422);
+            }
+            foreach ($toClone->questions as $question) {
+                $survey->questions()->create([
+                    'id' => Keygen::alphanum(15)->generate(),
+                    'question_name' => $question->question_name,
+                    'survey_id' => $survey->id,
+                    'type' => $question->type,
+                    'extra_data' => $question->extra_data
+                ]);
+            }
+        }
+        return $survey;
     }
 
     public function deleteSurvey(Survey $survey) {
