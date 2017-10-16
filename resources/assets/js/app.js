@@ -1,7 +1,7 @@
 import VueRouter from 'vue-router';
 import router from './router/routes';
 import {store} from "./vuex/vuex";
-import {GET_USER_TEAMS} from "./vuex/mutationTypes";
+import {GET_USER_TEAMS, SET_USER} from "./vuex/mutationTypes";
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -49,7 +49,7 @@ const app = new Vue({
     },
 
     mounted() {
-        this.user = window.User;
+        this.$store.commit(SET_USER, window.User);
         this.$store.dispatch(GET_USER_TEAMS);
     },
 

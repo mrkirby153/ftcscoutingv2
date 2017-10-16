@@ -3,5 +3,6 @@ export default {
     survey: {},
     editingQuestion: null,
     response: {},
-    loading: false
+    loading: false,
+    user: {}
 }

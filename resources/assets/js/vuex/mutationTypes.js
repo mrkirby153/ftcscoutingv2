@@ -20,3 +20,5 @@ export const CLEAR_RESPONSE_DATA = 'clear_response_data';
 export const COMMIT_SURVEY_DATA = 'commit_survey_data';
 
 export const SET_LOADING = 'set_loading';
+
+export const SET_USER = 'set_user';

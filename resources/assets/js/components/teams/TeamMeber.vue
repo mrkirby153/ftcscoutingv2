@@ -11,16 +11,19 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="member in team.members">
+            <tr v-for="(member, index) in team.members">
                 <td><span v-if="member.user">{{member.user.name}}</span><span v-else="">{{member.user_email}}</span>
                     <div class="ui small label" v-if="member.pending">Pending</div>
                     <div class="ui small blue label" v-if="member.user && team.owner_id === member.user.id">Owner</div>
                 </td>
                 <td>{{member.created_at}}</td>
                 <td>
-                    <div class="buttons" v-if="!(member.user && team.owner_id === member.user.id)">
-                        <button class="ui button">
+                    <div class="buttons" v-if="!(member.user && team.owner_id === member.user.id) && team.owner_id == user.id">
+                        <button class="ui button" @click="confirm(index)" v-if="confirmMember != index">
                             <span v-if="member.pending">Cancel Invite</span><span v-else="">Remove From Team</span>
+                        </button>
+                        <button class="ui red button" @click="del(index)" v-if="confirmMember == index">
+                            Confirm
                         </button>
                         <button class="ui button" v-if="!member.pending">Make Team Manager</button>
                     </div>
@@ -43,7 +46,8 @@
                     </div>
                     <form-field name="email" required="true" :form="forms.inviteUser">
                         <label>User E-Mails</label>
-                        <textarea v-model="forms.inviteUser.email" name="email" rows="5" :disabled="forms.inviteUser.busy"></textarea>
+                        <textarea v-model="forms.inviteUser.email" name="email" rows="5"
+                                  :disabled="forms.inviteUser.busy"></textarea>
                     </form-field>
                 </form-wrapper>
             </div>
@@ -70,7 +74,14 @@
                     inviteUser: new Form('PUT', route('team.member.create', {team: this.$route.params.id}), {
                         email: ''
                     })
-                }
+                },
+                confirmMember: -1
+            }
+        },
+
+        computed: {
+            user() {
+                return this.$store.state.user;
             }
         },
 
@@ -99,6 +110,19 @@
                 this.forms.inviteUser.save().then(resp => {
                     this.getTeamInfo();
                     this.forms.inviteUser.email = '';
+                });
+            },
+            confirm(member) {
+                this.confirmMember = member;
+            },
+            del(member) {
+                this.confirmMember = null;
+                axios.delete(route('team.member.remove', {member: this.team.members[member].id})).then(resp => {
+                    toastr.success("User has been removed!", "Success");
+                    this.getTeamInfo();
+                }).catch(err => {
+                    toastr.error("An error occurred, please try again", "Error");
+                    this.getTeamInfo();
                 });
             }
         }
