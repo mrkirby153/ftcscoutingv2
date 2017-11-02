@@ -21,12 +21,12 @@ class SurveyController extends Controller {
             'name' => $request->get('name'),
             'created_by' => $request->user()->id
         ]);
-        if ($request->has('clone-from') && $request->get('clone-from') != "") {
+        if ($request->has('cloneFrom') && $request->get('cloneFrom') != "-1") {
             \Log::debug("Cloning from survey " . $request->get('clone-from'));
             // Clone the survey
-            $toClone = Survey::whereId($request->get('clone-from'))->with('questions')->first();
+            $toClone = Survey::whereId($request->get('cloneFrom'))->with('questions')->first();
             if ($toClone == null) {
-                return response()->json(["errors" => ["clone-from" => ['That survey does not exist']]], 422);
+                return response()->json(["errors" => ["cloneFrom" => ['That survey does not exist']]], 422);
             }
             foreach ($toClone->questions as $question) {
                 $survey->questions()->create([
@@ -71,7 +71,8 @@ class SurveyController extends Controller {
         $question->save();
     }
 
-    public function get(Survey $survey) {
+    public function get($survey) {
+        $survey = Survey::whereId($survey);
         return $survey->with('questions')->first();
     }
 

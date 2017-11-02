@@ -55,6 +55,11 @@ let routes = [
                 path: 'surveys',
                 component: require('../components/teams/SurveyList.vue'),
                 name: 'team.surveys'
+            },
+            {
+                path: 'create',
+                component: require('../components/teams/CreateSurvey.vue'),
+                name: 'survey.create'
             }
         ]
 

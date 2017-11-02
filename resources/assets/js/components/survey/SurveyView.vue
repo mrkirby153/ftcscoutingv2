@@ -6,7 +6,7 @@
     <div class="row">
         <div class="column">
             <div class="ui top attached header">
-                {{survey.name}}
+              <span v-if="editing">Edit </span>  {{survey.name}}
             </div>
             <div class="ui attached segment">
                 <div class="ui form" :class="{'loading': loading}">
@@ -48,6 +48,9 @@
             },
             loading() {
                 return this.$store.state.loading;
+            },
+            editing() {
+                return this.$route.name === 'survey.edit';
             }
         },
 
