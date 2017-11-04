@@ -21,10 +21,11 @@
             <div v-if="editing">
                 <div class="row">
                     <div class="ui fluid input">
-                        <input type="text" v-model="editData.name" placeholder="Question Name"/>
+                        <input type="text" @keyup.stop="changeTitle($event.target.value)" :value="questionTitle"
+                               placeholder="Question Name"/>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top: 10px">
                     <div class="ui fluid input" v-if="question.type == 'TEXT'">
                         <input type="text" disabled/>
                     </div>
@@ -46,7 +47,7 @@
     import {
         DELETE_QUESTION,
         SET_EDITING_QUESTION,
-        SET_QUESTION_DATA,
+        SET_QUESTION_DATA, SET_QUESTION_TITLE,
         SET_RESPONSE_DATA
     } from "../../../vuex/mutationTypes";
 
@@ -54,9 +55,6 @@
         data() {
             return {
                 data: "",
-                editData: {
-                    name: ""
-                }
             }
         },
         props: {
@@ -85,6 +83,9 @@
             },
             response() {
                 return this.$store.state.response;
+            },
+            questionTitle() {
+                return this.$store.state.editingTitle;
             }
         },
 
@@ -96,13 +97,13 @@
                 if (!this.editable || this.editing || this.$store.state.editingQuestion !== null)
                     return;
                 this.$store.commit(SET_EDITING_QUESTION, this.id);
-                this.editData.name = this.question.question_name;
+                this.$store.commit(SET_QUESTION_TITLE, this.question.question_name);
             },
 
             save() {
                 this.$store.dispatch(SET_QUESTION_DATA, {
                     id: this.id,
-                    title: this.editData.name,
+                    title: this.questionTitle,
                     data: {}
                 });
             },
@@ -111,6 +112,9 @@
             },
             change(data) {
                 this.$store.commit(SET_RESPONSE_DATA, {question: this.id, response: data})
+            },
+            changeTitle(data) {
+                this.$store.commit(SET_QUESTION_TITLE, data);
             }
         }
 

@@ -1,7 +1,7 @@
 import {
     CLEAR_RESPONSE_DATA,
     PUSH_USER_TEAM, REMOVE_QUESTION_FROM_SURVEY, REMOVE_TEAM_MEMBER, SET_ACCEPTED, SET_EDITING_QUESTION, SET_LOADING,
-    SET_QUESTION_DATA, SET_RESPONSE_DATA, SET_SURVEY, SET_SURVEY_QUESTION_TYPE, SET_USER,
+    SET_QUESTION_DATA, SET_RESPONSE_DATA, SET_SURVEY, SET_SURVEY_QUESTION_TYPE, SET_QUESTION_TITLE, SET_USER,
     SET_USER_TEAMS, UPDATE_QUESTION_DATA
 } from "./mutationTypes";
 
@@ -59,5 +59,8 @@ export default {
                 d.type = type;
             }
         })
+    },
+    [SET_QUESTION_TITLE](state, payload){
+        state.editingTitle = payload;
     }
 }
