@@ -23,3 +23,6 @@ export const SET_QUESTION_TITLE = 'set_question_title';
 export const SET_LOADING = 'set_loading';
 
 export const SET_USER = 'set_user';
+
+export const ADD_NEW_QUESTION = 'add_new_question';
+export const PUSH_QUESTION = 'push_question';

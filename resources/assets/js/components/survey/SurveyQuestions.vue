@@ -7,7 +7,7 @@
         <div v-if="questions && questions.length == 0 && !editable">
             There are no questions for this survey. Ask the survey owner to add some.
         </div>
-        <div v-for="question in questions" :key="question.id">
+        <div v-for="question in questions">
             <question-multiplechoice :checkbox="question.type=='MULTIPLE_CHOICE'" :id="question.id"
                                      :editable="editable"
                                      v-if="question.type=='MULTIPLE_CHOICE' || question.type=='RADIO'"></question-multiplechoice>
@@ -27,7 +27,7 @@
                 return this.$store.state.survey;
             },
             questions() {
-                return this.survey.questions;
+                return this.$store.state.survey.questions;
             }
         },
 

@@ -1,9 +1,10 @@
 import axios from 'axios';
 import state from './state';
 import {
-    ACCEPT_MEMBER_INVITE, CLEAR_RESPONSE_DATA, COMMIT_SURVEY_DATA, DELETE_QUESTION, DISPATCH_SURVEY_QUESTION_TYPE,
+    ACCEPT_MEMBER_INVITE, ADD_NEW_QUESTION, CLEAR_RESPONSE_DATA, COMMIT_SURVEY_DATA, DELETE_QUESTION,
+    DISPATCH_SURVEY_QUESTION_TYPE,
     GET_SURVEY,
-    GET_USER_TEAMS,
+    GET_USER_TEAMS, PUSH_QUESTION,
     REMOVE_QUESTION_FROM_SURVEY, SET_ACCEPTED,
     SET_EDITING_QUESTION, SET_LOADING,
     SET_QUESTION_DATA, SET_SURVEY, SET_SURVEY_QUESTION_TYPE,
@@ -57,7 +58,8 @@ export default {
             survey: context.state.survey.id,
             question: payload
         })).then(resp => {
-            context.commit(REMOVE_QUESTION_FROM_SURVEY, payload)
+            context.commit(REMOVE_QUESTION_FROM_SURVEY, payload);
+            context.commit(SET_EDITING_QUESTION, null);
         }).catch(resp => {
             toastr["error"]("An error occurred, please try again", "Error")
         });
@@ -80,6 +82,16 @@ export default {
         }).catch(resp => {
             context.commit(SET_LOADING, false);
             toastr["error"]("An error occurred when submitting the survey. Please try again", "Error");
+        })
+    },
+    [ADD_NEW_QUESTION](context){
+        context.commit(SET_LOADING, true);
+        axios.put(route('survey.question.create', {survey: context.state.survey.id})).then(resp => {
+            context.dispatch(GET_SURVEY, state.survey.id);
+            context.commit(SET_LOADING, false);
+        }).catch(resp => {
+            context.commit(SET_LOADING, false);
+            toastr["error"]("An error occurred when adding a question, please try again", "Error");
         })
     }
 }
