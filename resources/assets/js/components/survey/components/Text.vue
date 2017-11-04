@@ -93,7 +93,7 @@
                 return data.toLowerCase().replace(' ', '-');
             },
             openEdit() {
-                if (!this.editable || this.editing)
+                if (!this.editable || this.editing || this.$store.state.editingQuestion !== null)
                     return;
                 this.$store.commit(SET_EDITING_QUESTION, this.id);
                 this.editData.name = this.question.question_name;
