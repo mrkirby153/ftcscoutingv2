@@ -2,8 +2,15 @@
 
 // Match form coloring
 .form-error {
-   color: #9F3A38;
- }
+  color: #9F3A38;
+}
+
 #app {
   margin-top: 5em;
+}
+
+#footer {
+  color: lighten(gray, 20%);
+  text-align: center;
+  margin-top: 10px;
 }
