@@ -17,6 +17,7 @@
 
     <script>
         window.User = {!!  Auth::guest()? "null" : json_encode(Auth::user()) !!};
+        window.commit_hash = @if($git_hash != null)"{{$git_hash}}"; @else null @endif;
     </script>
 </head>
 <body>
