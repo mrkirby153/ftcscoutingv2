@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider {
             \Cache::put('git-hash', shell_exec('git log --pretty=format:\'' . (\App::environment('production') ? '%h' : '%H') . '\' -n 1'), 1);
         }
         \View::share('git_hash', \Cache::get('git-hash'));
+        \Schema::defaultStringLength(191);
     }
 
     /**
