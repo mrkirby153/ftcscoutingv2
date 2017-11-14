@@ -36,6 +36,10 @@
             }
         },
 
+        mounted(){
+            $('.ui.dropdown').dropdown();
+        },
+
         methods: {
             setType(type) {
                 this.$store.dispatch(DISPATCH_SURVEY_QUESTION_TYPE, {id: this.id, type: type})

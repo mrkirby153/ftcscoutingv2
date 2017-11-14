@@ -2,7 +2,7 @@ import {
     CLEAR_RESPONSE_DATA,
     PUSH_USER_TEAM, REMOVE_QUESTION_FROM_SURVEY, REMOVE_TEAM_MEMBER, SET_ACCEPTED, SET_EDITING_QUESTION, SET_LOADING,
     SET_QUESTION_DATA, SET_RESPONSE_DATA, SET_SURVEY, SET_SURVEY_QUESTION_TYPE, SET_QUESTION_TITLE, SET_USER,
-    SET_USER_TEAMS, UPDATE_QUESTION_DATA, PUSH_QUESTION
+    SET_USER_TEAMS, UPDATE_QUESTION_DATA, PUSH_QUESTION, UPDATE_QUESTION_ORDER, SET_QUESTION_OPTIONS
 } from "./mutationTypes";
 
 export default {
@@ -65,5 +65,17 @@ export default {
     },
     [PUSH_QUESTION](state, payload){
         state.survey.questions.push(payload);
+    },
+    [UPDATE_QUESTION_ORDER](state, payload){
+        const targetId = payload.id;
+        const newOrder = payload.order;
+
+        state.survey.questions.forEach(d => {
+            if(d.id === targetId)
+                d.order = newOrder;
+        })
+    },
+    [SET_QUESTION_OPTIONS](state, payload){
+        state.editingOptions = payload;
     }
 }

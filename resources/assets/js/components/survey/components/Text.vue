@@ -38,6 +38,8 @@
                 </div>
                 <button class="ui icon button m-10-top" @click="save()"><i class="save icon"></i> Save</button>
                 <button class="ui icon button m-10-top" @click="deleteQuestion()"><i class="x icon"></i> Delete</button>
+                <button class="ui icon button m-10-top" @click="setOrder(question.order - 1)" :disabled="question.order <= 1"><i class="up arrow icon"></i></button>
+                <button class="ui icon button m-10-top" @click="setOrder(question.order + 1)" :disabled="question.order >= lastOrder"><i class="down arrow icon"></i></button>
             </div>
         </div>
     </div>
@@ -47,7 +49,7 @@
     import {
         DELETE_QUESTION,
         SET_EDITING_QUESTION,
-        SET_QUESTION_DATA, SET_QUESTION_TITLE,
+        SET_QUESTION_DATA, SET_QUESTION_ORDER, SET_QUESTION_TITLE,
         SET_RESPONSE_DATA
     } from "../../../vuex/mutationTypes";
 
@@ -86,6 +88,15 @@
             },
             questionTitle() {
                 return this.$store.state.editingTitle;
+            },
+            lastOrder(){
+                let id = 0;
+                this.$store.state.survey.questions.forEach(q => {
+                    if(q.order > id){
+                        id = q.order;
+                    }
+                });
+                return id;
             }
         },
 
@@ -115,7 +126,13 @@
             },
             changeTitle(data) {
                 this.$store.commit(SET_QUESTION_TITLE, data);
-            }
+            },
+            setOrder(order){
+                this.$store.dispatch(SET_QUESTION_ORDER, {
+                    question: this.question.id,
+                    order: order
+                })
+            },
         }
 
     }

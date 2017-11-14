@@ -9,6 +9,7 @@ use App\Models\Surveys\Survey;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Keygen\Keygen;
+use PHPUnit\Framework\Constraint\RegularExpression;
 
 class SurveyController extends Controller {
 
@@ -48,7 +49,8 @@ class SurveyController extends Controller {
     public function createQuestion(Survey $survey) {
         return $survey->questions()->create([
             'id' => Keygen::alphanum(15)->generate(),
-            'question_name' => 'New Question'
+            'question_name' => 'New Question',
+            'order' => $this->findNextOrderNumber($survey)
         ]);
     }
 
@@ -98,5 +100,23 @@ class SurveyController extends Controller {
             $d->response_data = $request->get($question->id);
             $d->save();
         }
+    }
+
+    public function setQuestionOrder(Request $request, Survey $survey, Question $question){
+        $question->order = $request->get('order');
+        $question->save();
+        return $question;
+    }
+
+    public function findNextOrderNumber(Survey $survey){
+        $num = 0;
+
+        foreach ($survey->questions as $question){
+            if($num < $question->order){
+                $num = $question->order;
+            }
+        }
+
+        return ++$num;
     }
 }

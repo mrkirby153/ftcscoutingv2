@@ -7,8 +7,8 @@ import {
     GET_USER_TEAMS, PUSH_QUESTION,
     REMOVE_QUESTION_FROM_SURVEY, SET_ACCEPTED,
     SET_EDITING_QUESTION, SET_LOADING,
-    SET_QUESTION_DATA, SET_SURVEY, SET_SURVEY_QUESTION_TYPE,
-    SET_USER_TEAMS, UPDATE_QUESTION_DATA
+    SET_QUESTION_DATA, SET_QUESTION_ORDER, SET_SURVEY, SET_SURVEY_QUESTION_TYPE,
+    SET_USER_TEAMS, UPDATE_QUESTION_DATA, UPDATE_QUESTION_ORDER
 } from "./mutationTypes";
 
 export default {
@@ -84,7 +84,7 @@ export default {
             toastr["error"]("An error occurred when submitting the survey. Please try again", "Error");
         })
     },
-    [ADD_NEW_QUESTION](context){
+    [ADD_NEW_QUESTION](context) {
         context.commit(SET_LOADING, true);
         axios.put(route('survey.question.create', {survey: context.state.survey.id})).then(resp => {
             context.dispatch(GET_SURVEY, state.survey.id);
@@ -93,5 +93,38 @@ export default {
             context.commit(SET_LOADING, false);
             toastr["error"]("An error occurred when adding a question, please try again", "Error");
         })
+    },
+    [SET_QUESTION_ORDER](context, payload) {
+        let questions = [...context.getters.questions];
+        let questionId = payload.question;
+        let newOrder = payload.order;
+
+        let index = 0;
+        for(index = 0; index < questions.length; index++){
+            if(questions[index].id == questionId)
+                break;
+        }
+
+        console.log("Found at index " + index);
+
+        // Remove the element from the array
+        let q = questions.splice(index, 1)[0];
+        console.log(q);
+        q.order = newOrder;
+        questions.splice(newOrder - 1, 0, q);
+
+        // Verify that the questions orders are updated
+        for(let i = 0; i < questions.length; i++){
+            if(questions[i].order != (i + 1)){
+                axios.patch(route('survey.question.order', {survey: context.state.survey.id, question: questions[i].id}), {
+                    order: i+1
+                }).then(resp => {
+                    context.commit(UPDATE_QUESTION_ORDER, {
+                        id: questions[i].id,
+                        order: i+1
+                    })
+                })
+            }
+        }
     }
 }

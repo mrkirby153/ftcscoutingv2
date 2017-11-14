@@ -34,7 +34,7 @@
                 <div class="row" v-for="(option, index) in editData.options">
                     <div class="ui fluid icon input m-10-top">
                         <i class="circular x link icon" @click="removeOption(index)"></i>
-                        <input type="text" v-model="editData.options[index].name"/>
+                        <input type="text" v-model="editData.options[index].name" @keyup.stop="setOptions()"/>
                     </div>
                 </div>
                 <div class="row m-10-top">
@@ -44,6 +44,8 @@
                 </button>
                 <button class="ui icon button m-10-top" @click="save()"><i class="save icon"></i> Save</button>
                 <button class="ui icon button m-10-top" @click="deleteQuestion()"><i class="x icon"></i> Delete</button>
+                <button class="ui icon button m-10-top" @click="setOrder(question.order - 1)" :disabled="question.order <= 1"><i class="up arrow icon"></i></button>
+                <button class="ui icon button m-10-top" @click="setOrder(question.order + 1)" :disabled="question.order >= lastOrder"><i class="down arrow icon"></i></button>
             </div>
         </div>
     </div>
@@ -53,7 +55,7 @@
     import {
         DELETE_QUESTION,
         SET_EDITING_QUESTION,
-        SET_QUESTION_DATA, SET_QUESTION_TITLE,
+        SET_QUESTION_DATA, SET_QUESTION_OPTIONS, SET_QUESTION_ORDER, SET_QUESTION_TITLE,
         SET_RESPONSE_DATA
     } from "../../../vuex/mutationTypes";
 
@@ -84,6 +86,7 @@
                 this.data = [];
             else
                 this.data = {};
+            this.editData.options = this.$store.state.editingOptions;
         },
 
         computed: {
@@ -106,6 +109,15 @@
             },
             questionTitle(){
                 return this.$store.state.editingTitle;
+            },
+            lastOrder(){
+                let id = 0;
+                this.$store.state.survey.questions.forEach(q => {
+                    if(q.order > id){
+                        id = q.order;
+                    }
+                });
+                return id;
             }
         },
 
@@ -133,7 +145,7 @@
             save() {
                 this.$store.dispatch(SET_QUESTION_DATA, {
                     id: this.id,
-                    title: this.editData.name,
+                    title: this.questionTitle,
                     data: {items: this.editData.options}
                 });
             },
@@ -157,6 +169,15 @@
                 if (obj === undefined)
                     return false;
                 return obj.includes(name);
+            },
+            setOrder(order){
+                this.$store.dispatch(SET_QUESTION_ORDER, {
+                    question: this.question.id,
+                    order: order
+                })
+            },
+            setOptions(){
+                this.$store.commit(SET_QUESTION_OPTIONS, this.editData.options);
             }
         }
 

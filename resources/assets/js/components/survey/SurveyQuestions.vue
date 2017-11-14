@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import {GET_SURVEY} from "../../vuex/mutationTypes";
+    import {GET_SURVEY, SET_QUESTION_ORDER} from "../../vuex/mutationTypes";
 
     export default {
 
@@ -27,7 +27,7 @@
                 return this.$store.state.survey;
             },
             questions() {
-                return this.$store.state.survey.questions;
+                return this.$store.getters.questions;
             }
         },
 

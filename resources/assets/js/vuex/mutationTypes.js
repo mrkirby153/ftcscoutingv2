@@ -19,6 +19,7 @@ export const SET_RESPONSE_DATA = 'set_response_data';
 export const CLEAR_RESPONSE_DATA = 'clear_response_data';
 export const COMMIT_SURVEY_DATA = 'commit_survey_data';
 export const SET_QUESTION_TITLE = 'set_question_title';
+export const SET_QUESTION_OPTIONS = 'set_question_options';
 
 export const SET_LOADING = 'set_loading';
 
@@ -26,3 +27,5 @@ export const SET_USER = 'set_user';
 
 export const ADD_NEW_QUESTION = 'add_new_question';
 export const PUSH_QUESTION = 'push_question';
+export const SET_QUESTION_ORDER = 'set_question_order';
+export const UPDATE_QUESTION_ORDER = 'update_question_order';

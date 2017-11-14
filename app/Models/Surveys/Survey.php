@@ -14,7 +14,7 @@ class Survey extends Model {
     ];
 
     public function questions() {
-        return $this->hasMany(Question::class, 'survey_id');
+        return $this->hasMany(Question::class, 'survey_id')->orderBy('order', 'ASC');
     }
 
     public function responses() {
