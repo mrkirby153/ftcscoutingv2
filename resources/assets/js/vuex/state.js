@@ -3,7 +3,7 @@ export default {
     survey: {},
     editingQuestion: null,
     editingTitle: "",
-    editingOptions: null,
+    editingOptions: [],
     response: {},
     loading: false,
     user: {}

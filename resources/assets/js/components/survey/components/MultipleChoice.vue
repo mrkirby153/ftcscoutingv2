@@ -31,10 +31,10 @@
                     </div>
                 </div>
                 <h5>Options</h5>
-                <div class="row" v-for="(option, index) in editData.options">
+                <div class="row" v-for="(option, index) in editOptions">
                     <div class="ui fluid icon input m-10-top">
                         <i class="circular x link icon" @click="removeOption(index)"></i>
-                        <input type="text" v-model="editData.options[index].name" @keyup.stop="setOptions()"/>
+                        <input type="text" @keyup.stop="setOptions(index, $event.target.value)" :value="option.name"/>
                     </div>
                 </div>
                 <div class="row m-10-top">
@@ -53,9 +53,10 @@
 
 <script>
     import {
-        DELETE_QUESTION,
+        ADD_QUESTION_OPTION,
+        DELETE_QUESTION, REMOVE_QUESTION_OPTION,
         SET_EDITING_QUESTION,
-        SET_QUESTION_DATA, SET_QUESTION_OPTIONS, SET_QUESTION_ORDER, SET_QUESTION_TITLE,
+        SET_QUESTION_DATA, SET_QUESTION_OPTION, SET_QUESTION_OPTIONS, SET_QUESTION_ORDER, SET_QUESTION_TITLE,
         SET_RESPONSE_DATA
     } from "../../../vuex/mutationTypes";
 
@@ -86,7 +87,6 @@
                 this.data = [];
             else
                 this.data = {};
-            this.editData.options = this.$store.state.editingOptions;
         },
 
         computed: {
@@ -100,6 +100,9 @@
             },
             options() {
                 return this.question.extra_data.items;
+            },
+            editOptions(){
+                return this.$store.state.editingOptions;
             },
             editing() {
                 return this.$store.state.editingQuestion === this.id;
@@ -130,23 +133,23 @@
                     return;
                 this.$store.commit(SET_EDITING_QUESTION, this.id);
                 this.$store.commit(SET_QUESTION_TITLE, this.question.question_name);
-                this.editData.options = this.question.extra_data.items;
+                this.$store.commit(SET_QUESTION_OPTIONS, this.question.extra_data.items);
             },
             addOption() {
-                this.editData.options.push({
+                this.$store.commit(ADD_QUESTION_OPTION, {
                     name: ""
                 })
             },
 
             removeOption(index) {
-                this.editData.options.splice(index, 1);
+                this.$store.commit(REMOVE_QUESTION_OPTION, index);
             },
 
             save() {
                 this.$store.dispatch(SET_QUESTION_DATA, {
                     id: this.id,
                     title: this.questionTitle,
-                    data: {items: this.editData.options}
+                    data: {items: [...this.editOptions]}
                 });
             },
             deleteQuestion() {
@@ -176,8 +179,13 @@
                     order: order
                 })
             },
-            setOptions(){
-                this.$store.commit(SET_QUESTION_OPTIONS, this.editData.options);
+            setOptions(index, title) {
+                this.$store.commit(SET_QUESTION_OPTION, {
+                    index: index,
+                    data: {
+                        name: title
+                    }
+                });
             }
         }
 

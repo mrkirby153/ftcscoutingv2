@@ -20,6 +20,9 @@ export const CLEAR_RESPONSE_DATA = 'clear_response_data';
 export const COMMIT_SURVEY_DATA = 'commit_survey_data';
 export const SET_QUESTION_TITLE = 'set_question_title';
 export const SET_QUESTION_OPTIONS = 'set_question_options';
+export const SET_QUESTION_OPTION = 'set_question_option';
+export const REMOVE_QUESTION_OPTION = 'remove_question_option';
+export const ADD_QUESTION_OPTION = 'add_question_option';
 
 export const SET_LOADING = 'set_loading';
 
