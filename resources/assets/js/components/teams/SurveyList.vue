@@ -20,7 +20,7 @@
                     <router-link :to="'/survey/'+survey.id">{{survey.name}}</router-link>
                 </td>
                 <td>
-                    <router-link :to="'/survey/'+survey.id+'/responses'">0</router-link>
+                    <router-link :to="'/survey/'+survey.id+'/responses'">{{survey.response_count}}</router-link>
                 </td>
                 <td>
                     <router-link :to="{name: 'survey.edit', params: {id: survey.id}}" class="ui button">Edit</router-link>

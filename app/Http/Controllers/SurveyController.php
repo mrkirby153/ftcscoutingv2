@@ -79,7 +79,13 @@ class SurveyController extends Controller {
     }
 
     public function showSurveys(Team $team) {
-        return $team->surveys;
+        $r = \DB::table('responses')
+            ->selectRaw('survey_id, COUNT(*) AS response_count')
+            ->groupBy('survey_id');
+       return \DB::table('surveys')
+            ->where('team_id', '=', $team->id)
+            ->join(\DB::raw("(".$r->toSql().") AS a"), 'survey_id', '=', 'id')
+            ->get();
     }
 
     public function processSubmit(Request $request, Survey $survey) {
@@ -102,17 +108,17 @@ class SurveyController extends Controller {
         }
     }
 
-    public function setQuestionOrder(Request $request, Survey $survey, Question $question){
+    public function setQuestionOrder(Request $request, Survey $survey, Question $question) {
         $question->order = $request->get('order');
         $question->save();
         return $question;
     }
 
-    public function findNextOrderNumber(Survey $survey){
+    public function findNextOrderNumber(Survey $survey) {
         $num = 0;
 
-        foreach ($survey->questions as $question){
-            if($num < $question->order){
+        foreach ($survey->questions as $question) {
+            if ($num < $question->order) {
                 $num = $question->order;
             }
         }
