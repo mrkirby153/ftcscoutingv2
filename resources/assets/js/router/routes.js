@@ -86,6 +86,30 @@ let routes = [
             auth: true
         },
         name: 'survey.edit'
+    },
+    {
+        path: '/survey/:id/responses',
+        component: require('../components/survey/response/SurveyResponses.vue'),
+        meta: {
+            auth: true
+        },
+        name: 'survey.responses'
+    },
+    {
+        path: '/survey/:id/responses/team/:team',
+        component: require('../components/survey/response/TeamOverview.vue'),
+        meta: {
+            auth: true
+        },
+        name: 'survey.response.team'
+    },
+    {
+        path: '/survey/:survey/response/:id',
+        component: require('../components/survey/response/SurveyResponse.vue'),
+        meta: {
+            auth: true
+        },
+        name: 'survey.response'
     }
 ];
 

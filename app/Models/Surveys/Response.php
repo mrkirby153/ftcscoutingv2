@@ -23,11 +23,11 @@ class Response extends Model {
     }
 
     public function submitter(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function data(){
-        return $this->belongsTo(ResponseData::class);
+        return $this->hasMany(ResponseData::class);
     }
 
     public function delete() {

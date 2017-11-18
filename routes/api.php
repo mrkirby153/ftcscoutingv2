@@ -40,3 +40,10 @@ Route::group(['prefix' => 'survey', 'middleware' => 'auth:api'], function () {
     Route::patch('/{survey}/questions/{question}/order', 'SurveyController@setQuestionOrder')->name('survey.question.order');
     Route::put('/{survey}/response', 'SurveyController@processSubmit')->name('survey.commit');
 });
+
+Route::group(['prefix'=>'responses', 'middleware'=>'auth:api'], function(){
+    Route::get('/{survey}/overview', 'ResponseController@getSurveyResponseOverview')->name('response.overview');
+    Route::get('/{survey}/team/{team}', 'ResponseController@getResponsesForTeam')->name('response.team.overview');
+
+    Route::get('/{response}', 'ResponseController@getResponse')->name('response.get');
+});
