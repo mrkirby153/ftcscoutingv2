@@ -48,7 +48,7 @@ class ResponseController extends Controller {
             ->join('survey_questions', 'response_data.question_id', '=', 'survey_questions.id')
             ->where('response_id', '=', $response->id)
             ->select('response_data.id', 'response_data', 'question_name', 'type')
-            ->orderBy('order', 'DESC')
+            ->orderBy('order', 'ASC')
             ->get();
         return [
             'data' => $data,

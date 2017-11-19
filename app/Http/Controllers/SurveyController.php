@@ -84,7 +84,7 @@ class SurveyController extends Controller {
             ->groupBy('survey_id');
        return \DB::table('surveys')
             ->where('team_id', '=', $team->id)
-            ->join(\DB::raw("(".$r->toSql().") AS a"), 'survey_id', '=', 'id')
+            ->leftJoin(\DB::raw("(".$r->toSql().") AS a"), 'survey_id', '=', 'id')
             ->get();
     }
 
