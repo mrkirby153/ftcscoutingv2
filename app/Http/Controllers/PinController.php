@@ -60,7 +60,7 @@ class PinController extends Controller {
     }
 
     public function getResponsePin(Response $response) {
-        $response = $response->with('survey', 'data.question')->first();
+        $response->load('survey', 'data.question');
         $pinData = $this->getSurveyPinData($response->survey);
         $parsed = array();
         foreach ($pinData as $pin) {
