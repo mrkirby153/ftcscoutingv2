@@ -17,7 +17,7 @@
 
             <div class="ui attached segment">
                 <div class="pin-data">
-                    PIN: 0
+                    PIN: {{pin}}
                 </div>
                 <div v-for="d in data.data">
                     <h2>{{d.question_name}}</h2>
@@ -36,7 +36,8 @@
     export default {
         data() {
             return {
-                data: []
+                data: [],
+                pin: 0,
             }
         },
 
@@ -48,6 +49,9 @@
             get() {
                 axios.get(route('response.get', {response: this.$route.params.id})).then(resp => {
                     this.data = resp.data;
+                });
+                axios.get(route('pin.response', {response: this.$route.params.id})).then(resp => {
+                    this.pin = resp.data;
                 })
             },
 

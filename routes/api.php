@@ -47,3 +47,16 @@ Route::group(['prefix'=>'responses', 'middleware'=>'auth:api'], function(){
 
     Route::get('/{response}', 'ResponseController@getResponse')->name('response.get');
 });
+
+Route::group(['prefix' => 'pin', 'middleware' => 'auth:api'], function(){
+    Route::get('/question/{question}', 'PinController@getForQuestion')->name('pin.get.by-question');
+    Route::put('/question/{question}', 'PinController@create')->name('pin.create');
+    Route::get('/survey/{survey}', 'PinController@getSurveyPinData')->name('pin.get.survey');
+
+    Route::get('/response/{response}', 'PinController@getResponsePin')->name('pin.response');
+
+    Route::get('/{id}', 'PinController@getById')->name('pin.get.by-id');
+    Route::patch('/{id}', 'PinController@update')->name('pin.update');
+    Route::delete('/{id}', 'PinController@delete')->name('pin.delete');
+
+});
