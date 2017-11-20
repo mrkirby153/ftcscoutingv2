@@ -57,6 +57,10 @@
             retrieveSurveys() {
                 axios.get(route('survey.list', {team: this.$route.params.id})).then(resp => {
                     this.surveys = resp.data;
+                    this.surveys.forEach(r => {
+                        if(r.response_count === null)
+                            r.response_count = 0;
+                    })
                 })
             }
         }
