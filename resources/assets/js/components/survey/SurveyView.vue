@@ -28,7 +28,7 @@
                         <button class="ui fluid button" :class="{'loading': loading}" @click="submit()" :disabled="loading">Submit</button>
                     </div>
                     <div style="margin-top: 10px" v-if="editing">
-                        <button class="ui button" @click="addNewQuestion" :class="{'loading': loading}" :disabled="loading">Add Question</button>
+                        <button class="ui button" @click="addNewQuestion" :class="{'loading': loading, 'disabled': currentlyEditing != undefined}" :disabled="loading">Add Question</button>
                     </div>
                 </div>
             </div>
@@ -62,6 +62,9 @@
             },
             editing() {
                 return this.$route.name === 'survey.edit';
+            },
+            currentlyEditing(){
+                return this.$store.state.editingQuestion;
             }
         },
 
