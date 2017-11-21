@@ -26,6 +26,8 @@ router.beforeResolve(function (to, from, next) {
             } else {
                 next(false);
             }
+        } else {
+            next();
         }
     } else {
         next();
