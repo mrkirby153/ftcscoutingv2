@@ -53,7 +53,8 @@ class TeamController extends Controller {
             ->get(['team_members.id as member_id', 'teams.id as team_id', 'pending as pending_accept', 'team_number', 'owner_id', 'name']);
     }
 
-    public function getTeam(Team $team) {
-        return $team->with('members')->with('members.user')->first();
+    public function getTeam($team) {
+        return $this->team->whereId($team)->with('members', 'members.user')->first();
+//        return $team->with('members')->with('members.user')->first();
     }
 }
