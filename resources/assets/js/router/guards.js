@@ -15,6 +15,10 @@ router.beforeResolve(function (to, from, next) {
 
 router.beforeResolve(function (to, from, next) {
     if (from.name === "survey.edit") {
+        if(to.name === "pin.edit"){
+            next();
+            return;
+        }
         if (state.editingQuestion !== null) {
             if (confirm("You have unsaved changes. Navigating away will lose them")) {
                 next();

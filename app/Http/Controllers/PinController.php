@@ -31,7 +31,7 @@ class PinController extends Controller {
         return $this->pin->create([
             'id' => Keygen::alphanum(10)->generate(),
             'question_id' => $question,
-            'data' => '[]'
+            'data' => []
         ]);
     }
 
@@ -40,7 +40,11 @@ class PinController extends Controller {
     }
 
     public function getForQuestion($question) {
-        return $this->pin->whereQuestionId($question)->first();
+        return PINData::firstOrCreate(['question_id' => $question], [
+            'data' => [],
+            'id' => Keygen::alphanum(10)->generate(),
+            'question_id' => $question
+        ]);
     }
 
     public function getById($id) {

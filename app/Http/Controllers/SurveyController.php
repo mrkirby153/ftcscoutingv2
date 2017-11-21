@@ -78,6 +78,10 @@ class SurveyController extends Controller {
         return $survey->with('questions')->first();
     }
 
+    public function getQuestion($question){
+        return Question::whereId($question)->firstOrFail();
+    }
+
     public function showSurveys(Team $team) {
         $r = \DB::table('responses')
             ->selectRaw('survey_id, COUNT(*) AS response_count')

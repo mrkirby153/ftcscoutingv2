@@ -12,4 +12,16 @@ class PINData extends Model {
     protected $fillable = [
         'id', 'question_id', 'data'
     ];
+
+
+    public function getDataAttribute($data){
+        return json_decode($data);
+    }
+
+    public function setDataAttribute($data){
+        if(is_array($data)){
+            $data = (object) $data;
+        }
+        $this->attributes['data'] = is_object($data) ? \GuzzleHttp\json_encode($data) : $data;
+    }
 }

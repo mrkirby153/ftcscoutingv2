@@ -60,3 +60,7 @@ Route::group(['prefix' => 'pin', 'middleware' => 'auth:api'], function(){
     Route::delete('/{id}', 'PinController@delete')->name('pin.delete');
 
 });
+
+Route::group(['prefix' => 'questions', 'middleware' => 'auth:api'], function(){
+    Route::get('{id}', 'SurveyController@getQuestion')->name('question.get');
+});

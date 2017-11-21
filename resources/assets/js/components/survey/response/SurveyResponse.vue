@@ -24,7 +24,7 @@
                     {{decodeQuestionResponse(d)}}
                 </div>
 
-                <router-link :to="{name: 'survey.response.team', params: {id: $route.params.survey, team: data.team}}" class="ui icon button m-10-top">
+                <router-link v-if="data.team" :to="{name: 'survey.response.team', params: {id: $route.params.survey, team: data.team}}" class="ui icon button m-10-top">
                     <i class="left arrow icon"></i>
                 </router-link>
             </div>

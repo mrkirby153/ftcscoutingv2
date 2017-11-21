@@ -88,6 +88,14 @@ let routes = [
         name: 'survey.edit'
     },
     {
+        path: '/survey/:id/question/:question/pin',
+        component: require('../components/survey/PinSettings.vue'),
+        meta: {
+            auth: true
+        },
+        name: 'pin.edit'
+    },
+    {
         path: '/survey/:id/responses',
         component: require('../components/survey/response/SurveyResponses.vue'),
         meta: {

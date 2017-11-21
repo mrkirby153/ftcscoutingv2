@@ -44,6 +44,7 @@
                 </button>
                 <button class="ui icon button m-10-top" @click="save()"><i class="save icon"></i> Save</button>
                 <button class="ui icon button m-10-top" @click="deleteQuestion()"><i class="x icon"></i> Delete</button>
+                <router-link :to="{name: 'pin.edit', params: {survey: $route.params.id, question: id}}" class="ui icon button m-10-top">PIN</router-link>
                 <button class="ui icon button m-10-top" @click="setOrder(question.order - 1)" :disabled="question.order <= 1"><i class="up arrow icon"></i></button>
                 <button class="ui icon button m-10-top" @click="setOrder(question.order + 1)" :disabled="question.order >= lastOrder"><i class="down arrow icon"></i></button>
             </div>

@@ -5,9 +5,10 @@ import {
     DISPATCH_SURVEY_QUESTION_TYPE,
     GET_SURVEY,
     GET_USER_TEAMS, PUSH_QUESTION,
-    REMOVE_QUESTION_FROM_SURVEY, SET_ACCEPTED,
+    REMOVE_QUESTION_FROM_SURVEY, RETRIEVE_QUESTION_DATA, SET_ACCEPTED,
     SET_EDITING_QUESTION, SET_LOADING,
-    SET_QUESTION_DATA, SET_QUESTION_ORDER, SET_SURVEY, SET_SURVEY_QUESTION_TYPE,
+    SET_QUESTION_DATA, SET_QUESTION_OPTIONS, SET_QUESTION_ORDER, SET_QUESTION_TITLE, SET_SURVEY,
+    SET_SURVEY_QUESTION_TYPE,
     SET_USER_TEAMS, UPDATE_QUESTION_DATA, UPDATE_QUESTION_ORDER
 } from "./mutationTypes";
 
@@ -93,6 +94,18 @@ export default {
             context.commit(SET_LOADING, false);
             toastr["error"]("An error occurred when adding a question, please try again", "Error");
         })
+    },
+    [RETRIEVE_QUESTION_DATA](context, payload){
+        axios.get(route('question.get', {id: payload})).then(resp => {
+            const question = resp.data;
+            console.log("Question: " + question.type);
+            console.log(question);
+            context.commit(SET_EDITING_QUESTION, payload);
+            context.commit(SET_QUESTION_TITLE, question.question_name);
+            if(question.type === "RADIO" || question.type === "MULTIPLE_CHOICE") {
+                context.commit(SET_QUESTION_OPTIONS, question.extra_data.items);
+            }
+        });
     },
     [SET_QUESTION_ORDER](context, payload) {
         let questions = [...context.getters.questions];

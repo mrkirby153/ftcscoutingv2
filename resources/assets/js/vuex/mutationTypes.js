@@ -32,3 +32,5 @@ export const ADD_NEW_QUESTION = 'add_new_question';
 export const PUSH_QUESTION = 'push_question';
 export const SET_QUESTION_ORDER = 'set_question_order';
 export const UPDATE_QUESTION_ORDER = 'update_question_order';
+
+export const RETRIEVE_QUESTION_DATA = 'retrive_question_data';
