@@ -77,4 +77,13 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    protected function redirectTo(){
+        if(\Session::has('redirect-to')){
+            \Log::info("Overriding redirect to ". \Session::get('redirect-to'));
+            return \Session::get('redirect-to');
+        } else {
+            return $this->redirectTo;
+        }
+    }
 }

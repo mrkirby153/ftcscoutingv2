@@ -41,6 +41,14 @@ class TeamMemberController extends Controller {
     }
 
     public function acceptInvite(Request $request, TeamMember $member) {
+        if(\Auth::guest()){
+            \Session::put('redirect-to', $request->url());
+            return redirect('/login');
+        }
+        if($member->user_email != \Auth::user()->email){
+            return redirect('/')->with(['status' => "That invite is not for you! Please log in with the correct email and try again",
+                'status-type' => 'error']);
+        }
         $member->pending = false;
         $member->save();
         if($request->expectsJson()){

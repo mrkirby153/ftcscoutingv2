@@ -58,7 +58,7 @@
 
     <div class="ui container">
         @if (session('status'))
-            <div class="ui success message">
+            <div class="ui {{session('status-type', 'success')}} message">
                 {{ session('status') }}
             </div>
         @endif
