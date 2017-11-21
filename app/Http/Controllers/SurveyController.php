@@ -110,6 +110,9 @@ class SurveyController extends Controller {
             $d->response_id = $resp->id;
             $d->question_id = $question->id;
             $d->response_data = $request->get($question->id);
+            if($d->response_data == null){
+                $d->response_data = [];
+            }
             $d->save();
         }
     }
