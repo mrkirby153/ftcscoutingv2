@@ -38,6 +38,13 @@ let routes = [
         }
     },
     {
+        path: '/team/create',
+        component: require('../components/teams/CreateTeam.vue'),
+        meta: {
+            auth: true
+        }
+    },
+    {
         path: '/team/:id',
         component: require('../components/teams/TeamDashboard.vue'),
         children: [
@@ -63,14 +70,6 @@ let routes = [
             }
         ]
 
-    },
-
-    {
-        path: '/team/create',
-        component: require('../components/teams/CreateTeam.vue'),
-        meta: {
-            auth: true
-        }
     },
     {
         path: '/survey/:id',

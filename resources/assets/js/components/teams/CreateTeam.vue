@@ -8,8 +8,8 @@
                 <form-wrapper :form="forms.createTeam" @submit="save">
                     <p slot="success">Team created!</p>
                     <form-field name="name" required="true" :form="forms.createTeam">
-                            <label>Team Name</label>
-                            <input type="text" name="name" v-model="forms.createTeam.name"/>
+                        <label>Team Name</label>
+                        <input type="text" name="name" v-model="forms.createTeam.name"/>
                     </form-field>
                     <form-field name="team_number" required="true" :form="forms.createTeam">
                         <label>Team Number</label>
@@ -26,7 +26,7 @@
     import {PUSH_USER_TEAM} from "../../vuex/mutationTypes";
 
     export default {
-        data(){
+        data() {
             return {
                 forms: {
                     createTeam: new Form('put', route('team.create'), {
@@ -37,10 +37,9 @@
             }
         },
         methods: {
-            save(){
-                this.forms.createTeam.save().then(resp =>{
-                    this.$router.push('/team/'+resp.data.id);
-                    this.$store.commit(PUSH_USER_TEAM, resp.data);
+            save() {
+                this.forms.createTeam.save().then(resp => {
+                    window.location.assign('/team/' + resp.data.id);
                 });
             }
         }

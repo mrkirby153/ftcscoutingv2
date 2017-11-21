@@ -49,6 +49,7 @@ class TeamController extends Controller {
     public function getTeams(Request $request) {
         return \DB::table('team_members')->where('user_email', '=', $request->user()->email)
             ->join('teams', 'team_members.team_id', '=', 'teams.id')
+            ->orderBy('team_number', 'ASC')
             ->get(['team_members.id as member_id', 'teams.id as team_id', 'pending as pending_accept', 'team_number', 'owner_id', 'name']);
     }
 
