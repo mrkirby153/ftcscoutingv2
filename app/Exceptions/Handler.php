@@ -36,6 +36,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if (app()->bound('sentry') && $this->shouldReport($exception) && !app()->environment('local')) {
+            \Log::info("Reporting to Sentry");
+//            app('sentry')->captureException($exception);
+        }
         parent::report($exception);
     }
 

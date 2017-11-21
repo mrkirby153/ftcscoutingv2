@@ -2,6 +2,8 @@ import VueRouter from 'vue-router';
 import router from './router/routes';
 import {store} from "./vuex/vuex";
 import {GET_USER_TEAMS, SET_USER} from "./vuex/mutationTypes";
+import Raven from "raven-js";
+import RavenVue from 'raven-js/plugins/vue';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -63,3 +65,10 @@ const app = new Vue({
     }
 
 });
+
+if(window.env !== "local") { // Run sentry if not local environment
+    Raven
+        .config('***REMOVED***')
+        .addPlugin(RavenVue, Vue)
+        .install();
+}

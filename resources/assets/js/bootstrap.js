@@ -1,4 +1,6 @@
 
+import * as Raven from "raven-js";
+
 window._ = require('lodash');
 
 /**
@@ -22,6 +24,13 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.axios.interceptors.response.use(null, function(error) {
+    if (error.status !== 401) {
+        Raven.captureException(error);
+    }
+    return Promise.reject(error);
+});
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that

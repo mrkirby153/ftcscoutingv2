@@ -12,6 +12,7 @@
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
+        "sentry/sentry-laravel": "^0.8.0",
         "tightenco/ziggy": "^0.4.1"
     },
     "require-dev": {

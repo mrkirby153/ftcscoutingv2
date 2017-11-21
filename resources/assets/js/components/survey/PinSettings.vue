@@ -88,6 +88,7 @@
                     toastr["success"]("Things have worked", "Success");
                 }).catch(e => {
                     toastr["error"]("An unknown error occurred. Please try again", "Error");
+                    throw e;
                 });
             }
         }

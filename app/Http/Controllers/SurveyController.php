@@ -7,6 +7,7 @@ use App\Models\Surveys\Question;
 use App\Models\Surveys\ResponseData;
 use App\Models\Surveys\Survey;
 use App\Models\Team;
+use Exception;
 use Illuminate\Http\Request;
 use Keygen\Keygen;
 use PHPUnit\Framework\Constraint\RegularExpression;
