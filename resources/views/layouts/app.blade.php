@@ -17,7 +17,8 @@
 
     <script>
         window.User = {!!  Auth::guest()? "null" : json_encode(Auth::user()) !!};
-        window.commit_hash = @if($git_hash != null)"{{$git_hash}}"; @else null @endif;
+        window.commit_hash = @if($git_hash != null)"{{$git_hash}}";
+        @else null @endif;
     </script>
 </head>
 <body>
@@ -61,9 +62,7 @@
                 {{ session('status') }}
             </div>
         @endif
-        <div class="ui grid">
-            @yield('content')
-        </div>
+        @yield('content')
     </div>
 
     <div class="ui footer" id="footer">

@@ -68,7 +68,7 @@ class PinController extends Controller {
         $pinData = $this->getSurveyPinData($response->survey);
         $parsed = array();
         foreach ($pinData as $pin) {
-            $parsed[$pin->question_id] = \GuzzleHttp\json_decode($pin->data);
+            $parsed[$pin->question_id] = $pin->data;
         }
         $total = 0;
         foreach ($response->data as $data) {
@@ -82,5 +82,41 @@ class PinController extends Controller {
             }
         }
         return $total;
+    }
+
+    public function getTeamRating(Survey $survey, $team){
+        $responses = Response::whereTeamNumber($team)->whereSurveyId($survey->id)->get();
+        $count = 0;
+        $pin = 0;
+        foreach($responses as $resp){
+            $count++;
+            $pin += $this->getResponsePin($resp);
+        }
+        return $pin / $count;
+    }
+
+    public function rankTeams(Survey $survey){
+        $responses = $survey->responses;
+
+        $uniqueTeams = array();
+        foreach($responses as $resp){
+            if(!in_array($resp->team_number, $uniqueTeams)){
+                $uniqueTeams[] = $resp->team_number;
+            }
+        }
+
+        $teams = array();
+        foreach($uniqueTeams as $t){
+           $teams[$t] = $this->getTeamRating($survey, $t);
+        }
+        arsort($teams);
+        $toReturn = array();
+        foreach($teams as $k => $v){
+            $toReturn[] = [
+                "team" => $k,
+                "pin" => $v
+            ];
+        }
+        return $toReturn;
     }
 }

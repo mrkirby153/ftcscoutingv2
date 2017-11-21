@@ -39,6 +39,7 @@ Route::group(['prefix' => 'survey', 'middleware' => 'auth:api'], function () {
     Route::patch('/{survey}/questions/{question}/type', 'SurveyController@setQuestionType')->name('survey.question.type');
     Route::patch('/{survey}/questions/{question}/order', 'SurveyController@setQuestionOrder')->name('survey.question.order');
     Route::put('/{survey}/response', 'SurveyController@processSubmit')->name('survey.commit');
+    Route::get('/{survey}/rankings', 'PinController@rankTeams')->name('survey.rank');
 });
 
 Route::group(['prefix'=>'responses', 'middleware'=>'auth:api'], function(){
