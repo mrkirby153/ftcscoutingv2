@@ -38,6 +38,8 @@ class SurveyController extends Controller {
                     'extra_data' => $question->extra_data
                 ]);
             }
+        } else {
+            $this->createQuestion($survey);
         }
         return $survey;
     }

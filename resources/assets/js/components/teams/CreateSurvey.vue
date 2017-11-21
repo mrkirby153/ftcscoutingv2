@@ -63,7 +63,7 @@
             save() {
                 this.forms.create.save().then(resp => {
                     console.log(resp.data);
-                    router.push('/survey/' + resp.data.id);
+                    router.push('/survey/' + resp.data.id+'/edit');
                 }).catch(e => {
                 });
             }
