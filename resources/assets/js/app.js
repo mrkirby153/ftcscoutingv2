@@ -68,7 +68,7 @@ const app = new Vue({
 
 if(window.env !== "local") { // Run sentry if not local environment
     Raven
-        .config('***REMOVED***')
+        .config('***REMOVED***') // TODO: Don't hardcode this.
         .addPlugin(RavenVue, Vue)
         .install();
 }
