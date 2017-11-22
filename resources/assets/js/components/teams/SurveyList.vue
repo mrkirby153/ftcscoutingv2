@@ -5,7 +5,8 @@
 <template>
     <div>
         <h1>Surveys</h1>
-        <router-link :to="'/team/'+$route.params.id+'/create'" class="ui button"><i class="plus icon"></i>Create a Survey</router-link>
+        <router-link :to="'/team/'+$route.params.id+'/create'" class="ui button"><i class="plus icon"></i>Create a Survey
+        </router-link>
         <table class="ui celled table">
             <thead>
             <tr>
@@ -23,7 +24,11 @@
                     <router-link :to="'/survey/'+survey.id+'/responses'">{{survey.response_count}}</router-link>
                 </td>
                 <td>
-                    <router-link :to="{name: 'survey.edit', params: {id: survey.id}}" class="ui button">Edit</router-link>
+                    <router-link :to="'/survey/'+survey.id" class="ui green button">Take Survey</router-link>
+                    <router-link :to="'/survey/'+survey.id+'/responses'" class="ui violet button">Responses
+                    </router-link>
+                    <router-link :to="{name: 'survey.edit', params: {id: survey.id}}" class="ui button">Edit
+                    </router-link>
                     <button class="ui button">Archive</button>
                     <button class="ui button">Delete</button>
                 </td>
@@ -58,7 +63,7 @@
                 axios.get(route('survey.list', {team: this.$route.params.id})).then(resp => {
                     this.surveys = resp.data;
                     this.surveys.forEach(r => {
-                        if(r.response_count === null)
+                        if (r.response_count === null)
                             r.response_count = 0;
                     })
                 })
