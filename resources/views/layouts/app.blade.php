@@ -20,6 +20,9 @@
         window.commit_hash = @if($git_hash != null)"{{$git_hash}}";
         @else null @endif;
         window.env = "{{App::environment()}}";
+        @if(env('SENTRY_JS'))
+        window.sentryJs = "{{env('SENTRY_JS')}}"
+        @endif
     </script>
 </head>
 <body>
