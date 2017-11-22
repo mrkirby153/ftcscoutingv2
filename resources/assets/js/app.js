@@ -52,7 +52,8 @@ const app = new Vue({
 
     mounted() {
         this.$store.commit(SET_USER, window.User);
-        this.$store.dispatch(GET_USER_TEAMS);
+        if (window.User !== null)
+            this.$store.dispatch(GET_USER_TEAMS);
     },
 
     computed: {
@@ -66,7 +67,7 @@ const app = new Vue({
 
 });
 
-if(window.env !== "local") { // Run sentry if not local environment
+if (window.env !== "local") { // Run sentry if not local environment
     Raven
         .config('***REMOVED***') // TODO: Don't hardcode this.
         .addPlugin(RavenVue, Vue)
