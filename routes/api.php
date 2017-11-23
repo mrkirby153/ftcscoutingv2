@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/auth/check', 'AuthorizationController@checkAuthorization')->middleware('auth:api')->name('auth.check');
+
 Route::group(['prefix' => 'members', 'middleware' => 'auth:api'], function () {
     Route::put('/{team}/invite', 'TeamMemberController@inviteMember')->name('team.member.create');
     Route::delete('/{member}', 'TeamMemberController@removeMember')->name('team.member.remove');

@@ -39,6 +39,8 @@ Vue.component('question-text', require('./components/survey/components/Text.vue'
 Vue.component('survey-questions', require('./components/survey/SurveyQuestions.vue'));
 Vue.component('type-selector', require('./components/survey/components/TypeSelector.vue'));
 
+Vue.component('guard-component', require('./components/GuardComponent.vue'));
+
 
 const app = new Vue({
     router,
