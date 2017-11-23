@@ -1,3 +1,4 @@
+import toastr from 'toastr'
 $(document).ready(()=>{
    $(".ui.dropdown").dropdown();
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import state from './state';
+import toastr from 'toastr'
 import {
     ACCEPT_MEMBER_INVITE, ADD_NEW_QUESTION, CLEAR_RESPONSE_DATA, COMMIT_SURVEY_DATA, DELETE_QUESTION,
     DISPATCH_SURVEY_QUESTION_TYPE,
@@ -25,6 +26,7 @@ export default {
             context.commit(SET_LOADING, false);
         }).catch(resp => {
             toastr["error"]("An error occurred, please try again", "Error")
+            throw resp;
         });
     },
     [GET_SURVEY](context, data) {
@@ -34,6 +36,7 @@ export default {
             context.commit(SET_LOADING, false);
         }).catch(resp => {
             toastr["error"]("An error occurred, please try again", "Error");
+            throw resp;
         })
     },
     [SET_QUESTION_DATA](context, payload) {
@@ -52,6 +55,7 @@ export default {
             context.commit(SET_EDITING_QUESTION, null)
         }).catch(resp => {
             toastr["error"]("An error occurred, please try again", "Error")
+            throw resp;
         });
     },
     [DELETE_QUESTION](context, payload) {
@@ -63,6 +67,7 @@ export default {
             context.commit(SET_EDITING_QUESTION, null);
         }).catch(resp => {
             toastr["error"]("An error occurred, please try again", "Error")
+            throw resp;
         });
     },
     [DISPATCH_SURVEY_QUESTION_TYPE](context, payload) {
@@ -83,6 +88,7 @@ export default {
         }).catch(resp => {
             context.commit(SET_LOADING, false);
             toastr["error"]("An error occurred when submitting the survey. Please try again", "Error");
+            throw resp;
         })
     },
     [ADD_NEW_QUESTION](context) {
@@ -93,6 +99,7 @@ export default {
         }).catch(resp => {
             context.commit(SET_LOADING, false);
             toastr["error"]("An error occurred when adding a question, please try again", "Error");
+            throw resp;
         })
     },
     [RETRIEVE_QUESTION_DATA](context, payload){
