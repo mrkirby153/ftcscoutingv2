@@ -2,6 +2,7 @@
 
 namespace App\Models\Surveys;
 
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Model;
 
 class Survey extends Model {
@@ -19,6 +20,10 @@ class Survey extends Model {
 
     public function responses() {
         return $this->hasMany(Response::class);
+    }
+
+    public function team(){
+        return $this->belongsTo(Team::class, 'team_id');
     }
 
     public function delete() {
