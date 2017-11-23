@@ -12,7 +12,7 @@
                                      :editable="editable"
                                      v-if="question.type=='MULTIPLE_CHOICE' || question.type=='RADIO'"></question-multiplechoice>
             <question-text :id="question.id" :editable="editable"
-                           v-if="question.type==='TEXT' || question.type==='LONG_TEXT'"></question-text>
+                           v-if="question.type==='TEXT' || question.type==='LONG_TEXT' || question.type ==='NUMBER'"></question-text>
         </div>
     </div>
 </template>

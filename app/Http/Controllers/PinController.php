@@ -40,7 +40,7 @@ class PinController extends Controller {
     }
 
     public function getForQuestion($question) {
-        return PINData::firstOrCreate(['question_id' => $question], [
+        return $this->pin->firstOrCreate(['question_id' => $question], [
             'data' => [],
             'id' => Keygen::alphanum(10)->generate(),
             'question_id' => $question
@@ -79,6 +79,10 @@ class PinController extends Controller {
                 foreach ($decoded as $d) {
                     $total += $parsed[$question->id]->$d;
                 }
+            }
+            if($type == "NUMBER"){
+                $data = $data->response_data;
+                $total += $data * $parsed[$question->id]->number;
             }
         }
         return $total;

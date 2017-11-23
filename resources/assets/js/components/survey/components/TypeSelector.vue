@@ -8,6 +8,7 @@
         <select class="ui fluid dropdown" @change="setType($event.target.value)" :value="question.type">
             <option value="TEXT">Text</option>
             <option value="LONG_TEXT">Long Text</option>
+            <option value="NUMBER">Numeric</option>
             <option value="MULTIPLE_CHOICE">Checkbox</option>
             <option value="RADIO">Radio</option>
         </select>

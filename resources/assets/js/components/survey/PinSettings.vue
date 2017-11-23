@@ -4,28 +4,29 @@
 
 <template>
     <div class="row">
-        <div class="column">
+        <div class="column" v-if="question">
             <div class="ui top attached header">
                 PIN
             </div>
             <div class="ui attached segment">
-                <!--<form class="ui form" @submit.prevent="save()">
-                    <div v-for="o in options">
-                        <div class="ui inline field" style="margin-top: 10px">
-                            <label>{{o.name}}</label>
-                            <input type="number" v-model="pin[o.name]"/>
-                        </div>
-                    </div>
-                    <input type="submit" class="ui button" value="Save and Return" style="margin-top: 10px"/>
-                </form>-->
                 <div class="ui grid">
-                    <div class="row" v-for="o in options">
+                    <div class="row" v-for="o in options" v-if="question.type != 'NUMBER'">
                         <div class="three wide column">
                             {{o.name}}
                         </div>
                         <div class="three wide column">
                             <div class="ui input">
                                 <input type="number" v-model="pin[o.name]"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-if="question.type == 'NUMBER'">
+                        <div class="seven wide column">
+                            <b>{{question.question_name}}</b>
+                        </div>
+                        <div class="three wide column">
+                            <div class="ui input">
+                                <input type="number" v-model="pin.number"/>
                             </div>
                         </div>
                     </div>
@@ -42,8 +43,9 @@
 
 <script>
     import {store} from "../../vuex/vuex";
-    import {RETRIEVE_QUESTION_DATA, SET_EDITING_QUESTION} from "../../vuex/mutationTypes";
+    import {GET_SURVEY, RETRIEVE_QUESTION_DATA, SET_EDITING_QUESTION} from "../../vuex/mutationTypes";
     import router from '../../router/routes';
+    import toastr from 'toastr'
 
     export default {
 
@@ -61,7 +63,15 @@
         computed: {
             options() {
                 return this.$store.state.editingOptions;
-            }
+            },
+            question() {
+                if (this.$store.state.survey.questions === undefined)
+                    return undefined;
+                let q = this.$store.state.survey.questions.filter(it => it.id === this.$route.params.question);
+                if (q.length < 1)
+                    return undefined;
+                return q[0];
+            },
         },
 
         methods: {
@@ -69,6 +79,9 @@
                 // Get data only if its null
                 if (this.$store.state.editingQuestion === undefined) {
                     this.$store.dispatch(RETRIEVE_QUESTION_DATA, this.$route.params.question);
+                }
+                if(this.$store.state.survey.questions === undefined){
+                    this.$store.dispatch(GET_SURVEY, this.$route.params.id)
                 }
                 axios.get(route('pin.get.by-question', {question: this.$route.params.question})).then(resp => {
                     this.pin = resp.data.data;

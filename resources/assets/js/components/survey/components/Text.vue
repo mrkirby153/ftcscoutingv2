@@ -17,6 +17,10 @@
                     <textarea rows="3" @keyup.stop="change($event.target.value)" :value="response[id]"
                               :disabled="editable"></textarea>
                 </div>
+                <div class="ui form field" v-if="question.type == 'NUMBER'">
+                    <input type="number" @keyup.stop="change($event.target.value)" :value="response[id]"
+                           :disabled="editable"/>
+                </div>
             </div>
             <div v-if="editing">
                 <div class="row">
@@ -26,7 +30,7 @@
                     </div>
                 </div>
                 <div class="row" style="margin-top: 10px">
-                    <div class="ui fluid input" v-if="question.type == 'TEXT'">
+                    <div class="ui fluid input" v-if="question.type == 'TEXT' || question.type=='NUMBER'">
                         <input type="text" disabled/>
                     </div>
                     <div class="ui form field" v-if="question.type=='LONG_TEXT'">
@@ -38,6 +42,7 @@
                 </div>
                 <button class="ui icon button m-10-top" @click="save()"><i class="save icon"></i> Save</button>
                 <button class="ui icon button m-10-top" @click="deleteQuestion()"><i class="x icon"></i> Delete</button>
+                <router-link :to="{name: 'pin.edit', params: {survey: $route.params.id, question: id}}" class="ui icon button m-10-top" v-if="question.type == 'NUMBER'">PIN</router-link>
                 <button class="ui icon button m-10-top" @click="setOrder(question.order - 1)" :disabled="question.order <= 1"><i class="up arrow icon"></i></button>
                 <button class="ui icon button m-10-top" @click="setOrder(question.order + 1)" :disabled="question.order >= lastOrder"><i class="down arrow icon"></i></button>
             </div>
