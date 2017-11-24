@@ -51,4 +51,14 @@ class TeamPolicy extends BasePolicy {
     public function delete(User $user, Team $team) {
         return $team->owner->id == $user->id; // Only the owner can delete the team
     }
+
+    /**
+     * Determine whether the user can invite users to the team
+     *
+     * @param User $user
+     * @return mixed
+     */
+    public function invite(User $user, Team $team){
+        return $this->isTeamAdmin($user, $team);
+    }
 }

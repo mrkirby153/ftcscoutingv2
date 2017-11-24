@@ -5,32 +5,34 @@
                 <div class="ui top attached header" v-if="team">
                     Team {{team.team_number}}: {{ team.name }}
                 </div>
-                <div class="ui attached segment" v-if="member">
-                    <div class="ui buttons" v-if="member.pending_accept">
-                        <button class="ui button" @click="acceptInvite">Join Team</button>
-                        <div class="or"></div>
-                        <button class="ui button_popup button" @click="declineInvite">
-                            Decline Invite
-                        </button>
-                    </div>
-                    <div v-if="!member.pending_accept">
-                        <div class="ui secondary pointing labeled icon menu">
-                            <router-link :to="{name: 'team.overview', id: team.team_id}" activeClass="" class="item"><i
-                                    class="browser icon"></i>Team Overview
-                            </router-link>
-                            <router-link :to="{name: 'team.members', id: team.team_id}" class="item"><i
-                                    class="user icon"></i>Team Members
-                            </router-link>
-                            <router-link :to="{name: 'team.surveys', id: team.team_id}" class="item"><i
-                                    class="tasks icon"></i>Surveys
-                            </router-link>
+                <guard-component model="Team" check="view" :value="$route.params.id">
+                    <div class="ui attached segment">
+                        <div class="ui buttons" v-if="member && member.pending_accept">
+                            <button class="ui button" @click="acceptInvite">Join Team</button>
+                            <div class="or"></div>
+                            <button class="ui button_popup button" @click="declineInvite">
+                                Decline Invite
+                            </button>
                         </div>
-                        <router-view></router-view>
+                        <div v-if="member && !member.pending_accept">
+                            <div class="ui secondary pointing labeled icon menu">
+                                <router-link :to="{name: 'team.overview', id: team.team_id}" activeClass="" class="item"><i
+                                        class="browser icon"></i>Team Overview
+                                </router-link>
+                                <router-link :to="{name: 'team.members', id: team.team_id}" class="item"><i
+                                        class="user icon"></i>Team Members
+                                </router-link>
+                                <router-link :to="{name: 'team.surveys', id: team.team_id}" class="item"><i
+                                        class="tasks icon"></i>Surveys
+                                </router-link>
+                            </div>
+                            <router-view></router-view>
+                        </div>
                     </div>
-                </div>
-                <div class="ui attached segment" v-if="!member && loaded && team">
-                    You are not a member of this team. If you would like to request join, click <a>Here</a>
-                </div>
+                    <div class="ui attached segment" slot="no-access">
+                        You are not a member of this team. If you would like to request join, click <a>Here</a>
+                    </div>
+                </guard-component>
                 <div class="ui segment" v-if="loaded && !team">
                     That team does not exist!
                 </div>

@@ -43,7 +43,7 @@ class BasePolicy {
     protected function isTeamAdmin(User $user, Team $team){
         if(!$this->isTeamMember($user, $team->id))
             return false;
-        if($team->owner->id == $user->id){
+        if($team->owner != null && $team->owner->id == $user->id){
             return true;
         }
         // TODO 11/22/17: Add support for team admins

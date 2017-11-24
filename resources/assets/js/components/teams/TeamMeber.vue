@@ -1,7 +1,9 @@
 <template>
     <div>
         <h2>Team Members</h2>
-        <button class="ui orange button" @click="showAddMember"><i class="plus icon"></i>Add a member</button>
+        <guard-component model="Team" :value="$route.params.id" check="invite">
+            <button class="ui orange button" @click="showAddMember"><i class="plus icon"></i>Add a member</button>
+        </guard-component>
         <table class="ui celled table" v-if="team">
             <thead>
             <tr>
@@ -18,15 +20,18 @@
                 </td>
                 <td>{{member.created_at}}</td>
                 <td>
-                    <div class="buttons" v-if="!(member.user && team.owner_id === member.user.id) && team.owner_id == user.id">
-                        <button class="ui button" @click="confirm(index)" v-if="confirmMember != index">
-                            <span v-if="member.pending">Cancel Invite</span><span v-else="">Remove From Team</span>
-                        </button>
-                        <button class="ui red button" @click="del(index)" v-if="confirmMember == index">
-                            Confirm
-                        </button>
-                        <button class="ui button" v-if="!member.pending">Make Team Manager</button>
-                    </div>
+                    <guard-component model="Team" :value="$route.params.id" check="update">
+                        <div class="buttons"
+                             v-if="!(member.user && team.owner_id === member.user.id) && team.owner_id == user.id">
+                            <button class="ui button" @click="confirm(index)" v-if="confirmMember != index">
+                                <span v-if="member.pending">Cancel Invite</span><span v-else="">Remove From Team</span>
+                            </button>
+                            <button class="ui red button" @click="del(index)" v-if="confirmMember == index">
+                                Confirm
+                            </button>
+                            <button class="ui button" v-if="!member.pending">Make Team Manager</button>
+                        </div>
+                    </guard-component>
                 </td>
             </tr>
             </tbody>
@@ -66,6 +71,7 @@
 
 <script>
     import toastr from 'toastr';
+
     export default {
 
         data() {

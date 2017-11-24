@@ -33,9 +33,9 @@
             },
             value: {
                 type: String,
-                required: true
+                required: false
             },
-            additional:{
+            additional: {
                 type: String,
                 required: false,
                 default: ''
@@ -58,7 +58,7 @@
                     return; // Prevent us firing off two checks
                 this.checking = true;
                 let model = this.model;
-                if(!model.startsWith('\\')){
+                if (!model.startsWith('\\')) {
                     model = "\\App\\Models\\" + model;
                 }
                 axios.post(route('auth.check'), {
