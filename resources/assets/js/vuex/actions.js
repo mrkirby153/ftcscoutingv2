@@ -2,7 +2,7 @@ import axios from 'axios';
 import state from './state';
 import toastr from 'toastr'
 import {
-    ACCEPT_MEMBER_INVITE, ADD_NEW_QUESTION, CLEAR_RESPONSE_DATA, COMMIT_SURVEY_DATA, DELETE_QUESTION,
+    ACCEPT_MEMBER_INVITE, ADD_NEW_QUESTION, CLEAR_EDIT_DATA, CLEAR_RESPONSE_DATA, COMMIT_SURVEY_DATA, DELETE_QUESTION,
     DISPATCH_SURVEY_QUESTION_TYPE,
     GET_SURVEY,
     GET_USER_TEAMS, PUSH_QUESTION,
@@ -52,7 +52,7 @@ export default {
             question_name: title,
             extra_data: data
         }).then(resp => {
-            context.commit(SET_EDITING_QUESTION, null)
+            context.commit(CLEAR_EDIT_DATA);
         }).catch(resp => {
             toastr["error"]("An error occurred, please try again", "Error")
             throw resp;

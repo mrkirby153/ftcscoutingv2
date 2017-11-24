@@ -3,7 +3,7 @@ import {
     PUSH_USER_TEAM, REMOVE_QUESTION_FROM_SURVEY, REMOVE_TEAM_MEMBER, SET_ACCEPTED, SET_EDITING_QUESTION, SET_LOADING,
     SET_QUESTION_DATA, SET_RESPONSE_DATA, SET_SURVEY, SET_SURVEY_QUESTION_TYPE, SET_QUESTION_TITLE, SET_USER,
     SET_USER_TEAMS, UPDATE_QUESTION_DATA, PUSH_QUESTION, UPDATE_QUESTION_ORDER, SET_QUESTION_OPTIONS,
-    REMOVE_QUESTION_OPTION, ADD_QUESTION_OPTION, SET_QUESTION_OPTION
+    REMOVE_QUESTION_OPTION, ADD_QUESTION_OPTION, SET_QUESTION_OPTION, CLEAR_EDIT_DATA
 } from "./mutationTypes";
 
 export default {
@@ -87,5 +87,10 @@ export default {
     },
     [ADD_QUESTION_OPTION](state, payload) {
         state.editingOptions.push(payload);
+    },
+    [CLEAR_EDIT_DATA](state){
+        state.editingQuestion = null;
+        state.editingOptions = [];
+        state.editingTitle = "";
     }
 }
