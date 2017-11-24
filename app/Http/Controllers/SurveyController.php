@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\DeleteSurvey;
+use App\Models\Surveys\PINData;
 use App\Models\Surveys\Question;
 use App\Models\Surveys\ResponseData;
 use App\Models\Surveys\Survey;
@@ -67,6 +68,33 @@ class SurveyController extends Controller {
         ]);
         $question->question_name = $req->get('question_name');
         $question->extra_data = $req->get('extra_data');
+
+        // Fix PIN for multiple choice
+        if($question->type == "MULTIPLE_CHOICE" || $question->type == "RADIO"){
+            $pin = PINData::whereQuestionId($question->id)->first();
+            if($pin != null){
+                $toDelete = array();
+                foreach($pin->data as $k=>$data){
+                    $found = false;
+                    foreach($question->extra_data->items as $ed){
+                        if($ed->name == $k) {
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if(!$found){
+                        $toDelete[] = $k;
+                    }
+                }
+                $d = $pin->data;
+                foreach($toDelete as $u){
+                    unset($d->$u);
+                }
+                $pin->data = $d;
+                $pin->save();
+            }
+        }
+
         $question->save();
         return $question;
     }
