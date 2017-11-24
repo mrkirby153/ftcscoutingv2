@@ -18,6 +18,10 @@ class Question extends Model {
         return $this->belongsTo(Survey::class);
     }
 
+    public function pin(){
+        return $this->hasOne(PINData::class, 'question_id');
+    }
+
 
     /**
      * @param $data

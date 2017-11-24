@@ -13,6 +13,10 @@ class PINData extends Model {
         'id', 'question_id', 'data'
     ];
 
+    public function question(){
+        return $this->belongsTo(Question::class, 'question_id');
+    }
+
 
     public function getDataAttribute($data){
         return json_decode($data);

@@ -27,18 +27,25 @@ class SurveyController extends Controller {
         if ($request->has('cloneFrom') && $request->get('cloneFrom') != "-1") {
             \Log::debug("Cloning from survey " . $request->get('clone-from'));
             // Clone the survey
-            $toClone = Survey::whereId($request->get('cloneFrom'))->with('questions')->first();
+            $toClone = Survey::whereId($request->get('cloneFrom'))->with('questions', 'questions.pin')->first();
             if ($toClone == null) {
                 return response()->json(["errors" => ["cloneFrom" => ['That survey does not exist']]], 422);
             }
             foreach ($toClone->questions as $question) {
-                $survey->questions()->create([
+                $q = $survey->questions()->create([
                     'id' => Keygen::alphanum(15)->generate(),
                     'question_name' => $question->question_name,
                     'survey_id' => $survey->id,
                     'type' => $question->type,
-                    'extra_data' => $question->extra_data
+                    'extra_data' => $question->extra_data,
+                    'order' => $question->order
                 ]);
+                if($question->pin != null){
+                    $q->pin()->create([
+                        'id' => Keygen::alphanum(15)->generate(),
+                        'data' => $question->pin->data
+                    ]);
+                }
             }
         } else {
             $this->createQuestion($survey);
