@@ -51,6 +51,6 @@ class ResponsePolicy extends BasePolicy {
      * @return mixed
      */
     public function delete(User $user, Response $response) {
-        return $response->submitter == $user || $this->isTeamAdmin($user, $response->survey->team_id);
+        return $response->submitter->id == $user->id || $this->isTeamAdmin($user, $response->survey->team);
     }
 }

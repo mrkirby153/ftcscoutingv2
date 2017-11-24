@@ -50,6 +50,7 @@ Route::group(['prefix'=>'responses', 'middleware'=>'auth:api'], function(){
     Route::get('/{survey}/team/{team}', 'ResponseController@getResponsesForTeam')->name('response.team.overview');
 
     Route::get('/{response}', 'ResponseController@getResponse')->name('response.get');
+    Route::delete('/{response}', 'ResponseController@delete')->name('response.delete');
 });
 
 Route::group(['prefix' => 'pin', 'middleware' => 'auth:api'], function(){

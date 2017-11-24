@@ -55,4 +55,11 @@ class ResponseController extends Controller {
             'team' => $response->team_number
         ];
     }
+
+    public function delete(Response $response){
+        foreach($response->data as $data){
+            $data->delete();
+        }
+        $response->delete();
+    }
 }
