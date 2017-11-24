@@ -86,6 +86,8 @@ export default {
         state.editingOptions.splice(payload, 1);
     },
     [ADD_QUESTION_OPTION](state, payload) {
+        if(state.editingOptions === undefined)
+            state.editingOptions = [];
         state.editingOptions.push(payload);
     },
     [CLEAR_EDIT_DATA](state){
