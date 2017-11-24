@@ -28,7 +28,7 @@ class SurveyPolicy extends BasePolicy {
      * @return mixed
      */
     public function create(User $user, Team $team) {
-        return  $this->isTeamAdmin($user, $team->id);
+        return  $this->isTeamAdmin($user, $team);
     }
 
     /**

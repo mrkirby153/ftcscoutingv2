@@ -34,6 +34,11 @@
             value: {
                 type: String,
                 required: true
+            },
+            additional:{
+                type: String,
+                required: false,
+                default: ''
             }
         },
 
@@ -60,7 +65,8 @@
                     model: model,
                     property: this.property,
                     check: this.check,
-                    value: this.value
+                    value: this.value,
+                    additional: this.additional
                 }).then(resp => {
                     this.passed = resp.data;
                     this.checking = false;
