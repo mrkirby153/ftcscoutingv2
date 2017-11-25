@@ -6,5 +6,6 @@ export default {
     editingOptions: [],
     response: {},
     loading: false,
-    user: {}
+    user: {},
+    guardCache: {}
 }

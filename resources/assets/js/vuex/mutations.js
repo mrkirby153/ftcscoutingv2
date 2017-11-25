@@ -3,7 +3,7 @@ import {
     PUSH_USER_TEAM, REMOVE_QUESTION_FROM_SURVEY, REMOVE_TEAM_MEMBER, SET_ACCEPTED, SET_EDITING_QUESTION, SET_LOADING,
     SET_QUESTION_DATA, SET_RESPONSE_DATA, SET_SURVEY, SET_SURVEY_QUESTION_TYPE, SET_QUESTION_TITLE, SET_USER,
     SET_USER_TEAMS, UPDATE_QUESTION_DATA, PUSH_QUESTION, UPDATE_QUESTION_ORDER, SET_QUESTION_OPTIONS,
-    REMOVE_QUESTION_OPTION, ADD_QUESTION_OPTION, SET_QUESTION_OPTION, CLEAR_EDIT_DATA
+    REMOVE_QUESTION_OPTION, ADD_QUESTION_OPTION, SET_QUESTION_OPTION, CLEAR_EDIT_DATA, SET_CACHED_GUARD_CHECK
 } from "./mutationTypes";
 
 export default {
@@ -94,5 +94,31 @@ export default {
         state.editingQuestion = null;
         state.editingOptions = [];
         state.editingTitle = "";
+    },
+    [SET_CACHED_GUARD_CHECK](state, payload){
+        let model = payload.model;
+        let check = payload.check;
+        let val = payload.value;
+        let property = payload.property;
+        let extra = payload.extra;
+        if(state.guardCache[model] === undefined){
+            state.guardCache[model] = {};
+        }
+        if(state.guardCache[model][check] === undefined){
+            state.guardCache[model][check] = {};
+        }
+        if(state.guardCache[model][check][property] === undefined){
+            state.guardCache[model][check][property] = {};
+        }
+        if(state.guardCache[model][check][property][val] === undefined){
+            state.guardCache[model][check][property][val] = {};
+        }
+        if(state.guardCache[model][check][property][val][extra] === undefined){
+            state.guardCache[model][check][property][val][extra] = {};
+        }
+        state.guardCache[model][check][property][val][extra] = {
+            result: payload.result,
+            time: new Date().getTime()
+        }
     }
 }
