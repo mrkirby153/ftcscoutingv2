@@ -29,7 +29,13 @@
                 <td>
                     <guard-component model="Surveys\Survey" check="update" :value="survey.id">
                         <router-link :to="'/survey/'+survey.id" class="ui green button">Take Survey</router-link>
-                        <router-link :to="'/survey/'+survey.id+'/responses'" class="ui violet button">Responses
+                        <router-link :to="'/survey/'+survey.id+'/responses'" class="ui labeled button">
+                            <div class="ui purple button">
+                                Responses
+                            </div>
+                            <a class="ui basic purple left pointing label">
+                                {{survey.response_count}}
+                            </a>
                         </router-link>
                         <router-link :to="{name: 'survey.edit', params: {id: survey.id}}" class="ui button">Edit
                         </router-link>
@@ -37,7 +43,13 @@
                         <button class="ui button">Delete</button>
                         <div slot="no-access">
                             <router-link :to="'/survey/'+survey.id" class="ui green button">Take Survey</router-link>
-                            <router-link :to="'/survey/'+survey.id+'/responses'" class="ui violet button">Responses
+                            <router-link :to="'/survey/'+survey.id+'/responses'" class="ui labeled button">
+                                <div class="ui purple button">
+                                    Responses
+                                </div>
+                                <a class="ui basic purple left pointing label">
+                                    {{survey.response_count}}
+                                </a>
                             </router-link>
                         </div>
                     </guard-component>
