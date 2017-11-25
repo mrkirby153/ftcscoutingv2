@@ -1,5 +1,5 @@
-
 import * as Raven from "raven-js";
+import toastr from 'toastr';
 
 window._ = require('lodash');
 
@@ -25,9 +25,36 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-window.axios.interceptors.response.use(null, function(error) {
-    if (error.status !== 401) {
+window.axios.interceptors.response.use(null, function (error) {
+    console.log(error.response.data);
+    if (error.response.status !== 401) {
         Raven.captureException(error);
+    }
+    if (error.response.status === 401) {
+        if (error.response.data.message === "Unauthenticated.") {
+            let oldOptions = toastr.options;
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": () => {
+                    window.location.reload();
+                },
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+            toastr["warning"]("Your session has expired. Please refresh the page and try again", "Session Expired")
+            toastr.options = oldOptions;
+        }
     }
     return Promise.reject(error);
 });
