@@ -15,7 +15,8 @@ set('repository', 'git@github.com:mrkirby153/ftcscoutingv2.git');
 set('git_tty', true);
 
 set('writable_mode', 'chmod');
-set('writable_chmod_mode', 775);
+set('writable_chmod_mode', 777);
+set('writable_use_sudo', true);
 
 // Shared files/dirs between deploys 
 add('shared_files', []);
