@@ -42,6 +42,8 @@
                         <div class="menu">
                             <router-link :to="{'name':'oauth.authorized'}" exact-active-class="" class="item">OAuth2
                             </router-link>
+
+                            <router-link :to="{name:'admin.users'}" class="item" v-if="user && user.admin">User List</router-link>
                             <a href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();" class="item">

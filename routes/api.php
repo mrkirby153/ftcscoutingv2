@@ -71,3 +71,7 @@ Route::group(['prefix' => 'pin', 'middleware' => 'auth:api'], function(){
 Route::group(['prefix' => 'questions', 'middleware' => 'auth:api'], function(){
     Route::get('{id}', 'SurveyController@getQuestion')->name('question.get');
 });
+
+Route::group(['prefix'=>'admin', 'middleware'=>'auth:api'], function(){
+    Route::get('/users', 'AdminController@getUsers')->name('admin.userList');
+});

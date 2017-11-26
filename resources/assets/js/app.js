@@ -54,6 +54,7 @@ const app = new Vue({
 
     mounted() {
         this.$store.commit(SET_USER, window.User);
+        this.user = window.User;
         if (window.User !== null)
             this.$store.dispatch(GET_USER_TEAMS);
     },

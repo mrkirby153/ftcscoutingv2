@@ -125,6 +125,15 @@ let routes = [
             auth: true
         },
         name: 'survey.response'
+    },
+    {
+        path: '/admin/users',
+        component: require('../components/admin/UserList.vue'),
+        meta: {
+            auth: true,
+            admin: true
+        },
+        name: 'admin.users'
     }
 ];
 

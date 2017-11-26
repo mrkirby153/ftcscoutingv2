@@ -12,6 +12,7 @@
 */
 
 
+Route::impersonate();
 Auth::routes();
 
 Route::get('/invite/{member}/accept', 'TeamMemberController@acceptInvite')->name('invite.accept');
