@@ -39,7 +39,6 @@ task('yarn', function () {
     run('cd {{release_path}} && yarn && yarn run production --progress false');
 });
 
-desc('Execute artisan migrate');
 task('artisan:backup', function () {
     run('{{bin/php}} {{release_path}}/artisan backup:run');
 });
@@ -55,3 +54,4 @@ after('deploy:vendors', 'yarn');
 before('deploy:symlink', 'artisan:migrate');
 // Backup the database before migrating
 before('artisan:migrate', 'artisan:backup');
+after('deploy:symlink', 'artisan:queue:restart');
