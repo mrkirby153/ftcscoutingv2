@@ -15,6 +15,7 @@ set('repository', 'git@github.com:mrkirby153/ftcscoutingv2.git');
 set('git_tty', true);
 
 set('writable_mode', 'chmod');
+set('writable_chmod_mode', 777);
 
 // Shared files/dirs between deploys 
 add('shared_files', []);
@@ -38,6 +39,12 @@ task('yarn', function () {
     run('cd {{release_path}} && yarn && yarn run production --progress false');
 });
 
+desc('Execute artisan migrate');
+task('artisan:backup', function () {
+    run('{{bin/php}} {{release_path}}/artisan backup:run');
+});
+
+
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
@@ -46,4 +53,5 @@ after('deploy:vendors', 'yarn');
 // Migrate database before symlink new release.
 
 before('deploy:symlink', 'artisan:migrate');
-
+// Backup the database before migrating
+before('artisan:migrate', 'artisan:backup');
