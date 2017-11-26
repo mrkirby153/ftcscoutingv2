@@ -40,7 +40,7 @@
                         <router-link :to="{name: 'survey.edit', params: {id: survey.id}}" class="ui button">Edit
                         </router-link>
                         <button class="ui button">Archive</button>
-                        <button class="ui button">Delete</button>
+                        <button class="ui button" @click="confirmDelete(survey.id)">Delete</button>
                         <div slot="no-access">
                             <router-link :to="'/survey/'+survey.id" class="ui green button">Take Survey</router-link>
                             <router-link :to="'/survey/'+survey.id+'/responses'" class="ui labeled button">
@@ -57,14 +57,35 @@
             </tr>
             </tbody>
         </table>
+        <div class="ui basic modal" id="confirm-delete">
+            <div class="ui icon header">
+                <i class="warning circle icon"></i>
+                Confirm delete
+            </div>
+            <div class="centered content">
+                <p>Are you sure you want to delete this survey? One it is deleted, it cannot be recovered!</p>
+            </div>
+            <div class="actions">
+                <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    No
+                </div>
+                <div class="ui green ok inverted button">
+                    <i class="checkmark icon"></i>
+                    Yes
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import toastr from 'toastr';
+
     export default {
         data() {
             return {
-                surveys: null
+                surveys: null,
             }
         },
 
@@ -89,6 +110,18 @@
                             r.response_count = 0;
                     })
                 })
+            },
+            confirmDelete(id) {
+                $("#confirm-delete").modal({
+                    onApprove: () => {
+                        axios.delete(route('survey.delete', {survey: id})).then(resp => {
+                            this.surveys = _.filter(this.surveys, s => {
+                                return s.id !== id
+                            });
+                            toastr["success"]("Survey deleted!", "Success!");
+                        });
+                    }
+                }).modal('show');
             }
         }
     }
