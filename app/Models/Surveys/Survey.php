@@ -10,6 +10,10 @@ class Survey extends Model {
 
     public $incrementing = false;
 
+    protected $casts = [
+        'archived' => 'boolean'
+    ];
+
     protected $fillable = [
         'id', 'team_id', 'created_by', 'name'
     ];

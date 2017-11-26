@@ -36,6 +36,7 @@ Route::group(['prefix' => 'teams'], function () {
 Route::group(['prefix' => 'survey', 'middleware' => 'auth:api'], function () {
     Route::get('/{survey}', 'SurveyController@get')->name('survey.get');
     Route::put('/{survey}', 'SurveyController@createQuestion')->name('survey.question.create');
+    Route::patch('/{survey}/archive', 'SurveyController@setArchived')->name('survey.setArchived');
     Route::delete('/{survey}', 'SurveyController@deleteSurvey')->name('survey.delete');
     Route::patch('/{survey}/questions/{question}', 'SurveyController@editQuestion')->name('survey.question.update');
     Route::delete('/{survey}/questions/{question}', 'SurveyController@deleteQuestion')->name('survey.question.delete');

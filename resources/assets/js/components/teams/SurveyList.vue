@@ -21,14 +21,16 @@
             <tbody>
             <tr v-for="survey in surveys">
                 <td>
-                    <router-link :to="'/survey/'+survey.id">{{survey.name}}</router-link>
+                    <router-link :to="'/survey/'+survey.id" v-if="!survey.archived">{{survey.name}}</router-link>
+                    <a v-else>{{survey.name}}</a>
                 </td>
                 <td>
                     <router-link :to="'/survey/'+survey.id+'/responses'">{{survey.response_count}}</router-link>
                 </td>
                 <td>
                     <guard-component model="Surveys\Survey" check="update" :value="survey.id">
-                        <router-link :to="'/survey/'+survey.id" class="ui green button">Take Survey</router-link>
+                        <router-link :to="'/survey/'+survey.id" class="ui green button" v-if="!survey.archived">Take Survey</router-link>
+                        <button class="ui green button" v-else disabled>Take Survey</button>
                         <router-link :to="'/survey/'+survey.id+'/responses'" class="ui labeled button">
                             <div class="ui purple button">
                                 Responses
@@ -39,10 +41,15 @@
                         </router-link>
                         <router-link :to="{name: 'survey.edit', params: {id: survey.id}}" class="ui button">Edit
                         </router-link>
-                        <button class="ui button">Archive</button>
-                        <button class="ui button" @click="confirmDelete(survey.id)">Delete</button>
+                        <button class="ui button with tip" @click="toggleArchive(survey.id, survey.archived)"
+                            :data-tooltip="survey.archived? 'Unarchiving a survey will make it available to all agian' : 'Archiving a survey will remove it from the list of surveys available to' +
+                             ' other members. Only team managers can see and view responses.'">
+                            <span v-if="!survey.archived">Archive</span>
+                            <span v-if="survey.archived">Unarchive</span>
+                        </button>
+                        <button class="ui red button" @click="confirmDelete(survey.id)">Delete</button>
                         <div slot="no-access">
-                            <router-link :to="'/survey/'+survey.id" class="ui green button">Take Survey</router-link>
+                            <router-link :to="'/survey/'+survey.id" class="ui green button" :disabled="survey.archived">Take Survey</router-link>
                             <router-link :to="'/survey/'+survey.id+'/responses'" class="ui labeled button">
                                 <div class="ui purple button">
                                     Responses
@@ -122,6 +129,17 @@
                         });
                     }
                 }).modal('show');
+            },
+            toggleArchive(id, archived){
+                axios.patch(route('survey.setArchived', {survey: id}), {
+                    archived: !archived
+                }).then(resp => {
+                    this.surveys.forEach(survey => {
+                        if(survey.id === id){
+                            survey.archived = !archived;
+                        }
+                    })
+                })
             }
         }
     }

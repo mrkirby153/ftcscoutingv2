@@ -40,7 +40,7 @@ class SurveyController extends Controller {
                     'extra_data' => $question->extra_data,
                     'order' => $question->order
                 ]);
-                if($question->pin != null){
+                if ($question->pin != null) {
                     $q->pin()->create([
                         'id' => Keygen::alphanum(15)->generate(),
                         'data' => $question->pin->data
@@ -77,24 +77,24 @@ class SurveyController extends Controller {
         $question->extra_data = $req->get('extra_data');
 
         // Fix PIN for multiple choice
-        if($question->type == "MULTIPLE_CHOICE" || $question->type == "RADIO"){
+        if ($question->type == "MULTIPLE_CHOICE" || $question->type == "RADIO") {
             $pin = PINData::whereQuestionId($question->id)->first();
-            if($pin != null){
+            if ($pin != null) {
                 $toDelete = array();
-                foreach($pin->data as $k=>$data){
+                foreach ($pin->data as $k => $data) {
                     $found = false;
-                    foreach($question->extra_data->items as $ed){
-                        if($ed->name == $k) {
+                    foreach ($question->extra_data->items as $ed) {
+                        if ($ed->name == $k) {
                             $found = true;
                             break;
                         }
                     }
-                    if(!$found){
+                    if (!$found) {
                         $toDelete[] = $k;
                     }
                 }
                 $d = $pin->data;
-                foreach($toDelete as $u){
+                foreach ($toDelete as $u) {
                     unset($d->$u);
                 }
                 $pin->data = $d;
@@ -116,17 +116,22 @@ class SurveyController extends Controller {
         return $survey->with('questions')->first();
     }
 
-    public function getQuestion($question){
+    public function getQuestion($question) {
         return Question::whereId($question)->firstOrFail();
     }
 
     public function showSurveys(Team $team) {
+        $num = 0;
+        if (\Auth::user()->can('update', $team)) {
+            $num = 1;
+        }
         $r = \DB::table('responses')
             ->selectRaw('survey_id, COUNT(*) AS response_count')
             ->groupBy('survey_id');
-       return \DB::table('surveys')
+        return \DB::table('surveys')
             ->where('team_id', '=', $team->id)
-            ->leftJoin(\DB::raw("(".$r->toSql().") AS a"), 'survey_id', '=', 'id')
+            ->where('archived', '<=', $num)
+            ->leftJoin(\DB::raw("(" . $r->toSql() . ") AS a"), 'survey_id', '=', 'id')
             ->get();
     }
 
@@ -146,7 +151,7 @@ class SurveyController extends Controller {
             $d->response_id = $resp->id;
             $d->question_id = $question->id;
             $d->response_data = $request->get($question->id);
-            if($d->response_data == null){
+            if ($d->response_data == null) {
                 $d->response_data = [];
             }
             $d->save();
@@ -157,6 +162,12 @@ class SurveyController extends Controller {
         $question->order = $request->get('order');
         $question->save();
         return $question;
+    }
+
+    public function setArchived(Request $request, Survey $survey){
+        $survey->archived = $request->get('archived') == "true";
+        $survey->save();
+        return $survey;
     }
 
     public function findNextOrderNumber(Survey $survey) {
