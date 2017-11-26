@@ -7,7 +7,7 @@
         <div class="ui top attached header">
             Overview For Team {{$route.params.team}}
         </div>
-        <div class="ui attached segment">
+        <div class="ui attached segment scroll-x-overflow">
             <table class="ui table" v-if="responses">
                 <thead>
                 <tr>
