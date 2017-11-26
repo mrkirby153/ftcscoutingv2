@@ -111,6 +111,14 @@ let routes = [
         name: 'survey.response.team'
     },
     {
+        path: '/survey/:id/responses/team/:team/summary',
+        component: require('../components/survey/response/TeamGrid.vue'),
+        meta: {
+            auth: true
+        },
+        name: 'survey.response.team.overview'
+    },
+    {
         path: '/survey/:survey/response/:id',
         component: require('../components/survey/response/SurveyResponse.vue'),
         meta: {

@@ -49,6 +49,7 @@ Route::group(['prefix' => 'survey', 'middleware' => 'auth:api'], function () {
 Route::group(['prefix'=>'responses', 'middleware'=>'auth:api'], function(){
     Route::get('/{survey}/overview', 'ResponseController@getSurveyResponseOverview')->name('response.overview');
     Route::get('/{survey}/team/{team}', 'ResponseController@getResponsesForTeam')->name('response.team.overview');
+    Route::get('/{survey}/team/{team}/summary', 'ResponseController@getResponsesForSummary')->name('response.team.summary');
 
     Route::get('/{response}', 'ResponseController@getResponse')->name('response.get');
     Route::delete('/{response}', 'ResponseController@delete')->name('response.delete');

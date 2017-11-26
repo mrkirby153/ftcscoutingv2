@@ -10,6 +10,9 @@
                     Responses for Team {{$route.params.team}}
                 </div>
                 <div class="ui attached segment">
+                    <router-link :to="{name: 'survey.response.team.overview', params:{id: $route.params.id, team: $route.params.team}}" class="ui primary button">
+                        Overview
+                    </router-link>
                     <table class="ui table">
                         <thead>
                         <tr>

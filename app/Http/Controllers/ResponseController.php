@@ -43,6 +43,10 @@ class ResponseController extends Controller {
         return $this->response->whereTeamNumber($team)->whereSurveyId($survey->id)->with('submitter')->orderBy('match_number')->get();
     }
 
+    public function getResponsesForSummary(Survey $survey, $team) {
+        return $this->response->whereTeamNumber($team)->whereSurveyId($survey->id)->with('data', 'data.question')->get();
+    }
+
     public function getResponse(Response $response) {
         $data = \DB::table($this->responseData->getTable())
             ->join('survey_questions', 'response_data.question_id', '=', 'survey_questions.id')
