@@ -82,6 +82,8 @@ class PinController extends Controller {
             }
             if($type == "NUMBER"){
                 $data = $data->response_data;
+                if(sizeof($data) == 0)
+                    continue; // Skip a question with no response data
                 $total += $data * $parsed[$question->id]->number;
             }
         }
