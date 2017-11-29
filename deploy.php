@@ -56,3 +56,4 @@ before('deploy:symlink', 'artisan:migrate');
 // Backup the database before migrating
 before('artisan:migrate', 'artisan:backup');
 after('deploy:symlink', 'artisan:queue:restart');
+after('artisan:optimize', 'deploy:writable');
