@@ -141,7 +141,13 @@ let routes = [
 const router = new VueRouter({
     routes,
     linkExactActiveClass: 'active',
-    mode: 'history'
+    mode: 'history',
+    scrollBehavior(to, from, saved) {
+        if (saved)
+            return saved;
+        else
+            return {x: 0, y: 0}
+    }
 });
 
 export default router;
