@@ -36,7 +36,7 @@
             <div class="header">Teams Ranked by PIN</div>
             <div class="content">
                 <ol>
-                    <li v-for="(data, index) in pinRanked" :class="{'bold': index + 1 <= 3}">Team {{data.team}} - {{data.pin}}</li>
+                    <li v-for="(data, index) in pinRanked" :class="{'bold': index + 1 <= 3}">Team {{data.team}} - {{round(data.pin, 2)}}</li>
                 </ol>
             </div>
         </div>
@@ -69,6 +69,9 @@
                     this.pinRanked = resp.data;
                     $("#ranked").modal('show');
                 });
+            },
+            round(value, decimals){
+                return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
             }
         }
     }
