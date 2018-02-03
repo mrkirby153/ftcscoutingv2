@@ -7,5 +7,6 @@ export default {
     response: {},
     loading: false,
     user: {},
-    guardCache: {}
+    guardCache: {},
+    errors: []
 }

@@ -3,7 +3,8 @@ import {
     PUSH_USER_TEAM, REMOVE_QUESTION_FROM_SURVEY, REMOVE_TEAM_MEMBER, SET_ACCEPTED, SET_EDITING_QUESTION, SET_LOADING,
     SET_QUESTION_DATA, SET_RESPONSE_DATA, SET_SURVEY, SET_SURVEY_QUESTION_TYPE, SET_QUESTION_TITLE, SET_USER,
     SET_USER_TEAMS, UPDATE_QUESTION_DATA, PUSH_QUESTION, UPDATE_QUESTION_ORDER, SET_QUESTION_OPTIONS,
-    REMOVE_QUESTION_OPTION, ADD_QUESTION_OPTION, SET_QUESTION_OPTION, CLEAR_EDIT_DATA, SET_CACHED_GUARD_CHECK
+    REMOVE_QUESTION_OPTION, ADD_QUESTION_OPTION, SET_QUESTION_OPTION, CLEAR_EDIT_DATA, SET_CACHED_GUARD_CHECK,
+    CLEAR_ERRORS, SET_ERRORS, CLEAR_ERROR
 } from "./mutationTypes";
 
 export default {
@@ -120,5 +121,14 @@ export default {
             result: payload.result,
             time: new Date().getTime()
         }
+    },
+    [CLEAR_ERRORS](state, payload){
+        state.errors = {}
+    },
+    [SET_ERRORS](state, payload){
+        state.errors = payload
+    },
+    [CLEAR_ERROR](state, payload){
+        delete state.errors[payload];
     }
 }

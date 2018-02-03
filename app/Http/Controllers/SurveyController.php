@@ -136,9 +136,22 @@ class SurveyController extends Controller {
     }
 
     public function processSubmit(Request $request, Survey $survey) {
-        \Log::info($request);
+        \Log::debug($request);
+        $request->validate([
+            'match_number' => 'required|numeric',
+            'team_number' => 'required'
+        ]);
         $matchNumber = $request->get('match_number');
         $teamNumber = $request->get('team_number');
+        // Check if there's a response already
+        if($survey->responses()->whereTeamNumber($teamNumber)->whereMatchNumber($matchNumber)->exists()){
+            // The survey exists, we should return that to the user
+            return response()->json([
+                'errors' => [
+                   'match_number' => ['This match has already been recorded.']
+                ]
+            ], 422);
+        }
         $resp = $survey->responses()->create([
             'id' => Keygen::alphanum(15)->generate(),
             'user_id' => \Auth::id(),

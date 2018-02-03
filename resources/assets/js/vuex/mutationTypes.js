@@ -37,3 +37,7 @@ export const UPDATE_QUESTION_ORDER = 'update_question_order';
 export const RETRIEVE_QUESTION_DATA = 'retrive_question_data';
 
 export const SET_CACHED_GUARD_CHECK = 'set_cached_guard_check';
+
+export const SET_ERRORS = 'set_errors';
+export const CLEAR_ERRORS = 'clear_errors';
+export const CLEAR_ERROR = 'clear_error';

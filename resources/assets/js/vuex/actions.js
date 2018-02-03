@@ -2,12 +2,13 @@ import axios from 'axios';
 import state from './state';
 import toastr from 'toastr'
 import {
-    ACCEPT_MEMBER_INVITE, ADD_NEW_QUESTION, CLEAR_EDIT_DATA, CLEAR_RESPONSE_DATA, COMMIT_SURVEY_DATA, DELETE_QUESTION,
+    ACCEPT_MEMBER_INVITE, ADD_NEW_QUESTION, CLEAR_EDIT_DATA, CLEAR_ERRORS, CLEAR_RESPONSE_DATA, COMMIT_SURVEY_DATA,
+    DELETE_QUESTION,
     DISPATCH_SURVEY_QUESTION_TYPE,
     GET_SURVEY,
     GET_USER_TEAMS, PUSH_QUESTION,
     REMOVE_QUESTION_FROM_SURVEY, RETRIEVE_QUESTION_DATA, SET_ACCEPTED,
-    SET_EDITING_QUESTION, SET_LOADING,
+    SET_EDITING_QUESTION, SET_ERRORS, SET_LOADING,
     SET_QUESTION_DATA, SET_QUESTION_OPTIONS, SET_QUESTION_ORDER, SET_QUESTION_TITLE, SET_SURVEY,
     SET_SURVEY_QUESTION_TYPE,
     SET_USER_TEAMS, UPDATE_QUESTION_DATA, UPDATE_QUESTION_ORDER
@@ -80,6 +81,7 @@ export default {
         });
     },
     [COMMIT_SURVEY_DATA](context) {
+        context.commit(CLEAR_ERRORS);
         context.commit(SET_LOADING, true);
         axios.put(route('survey.commit', {survey: state.survey.id}), state.response).then(resp => {
             toastr["success"]("Your response has been recorded!", "Success");
@@ -88,7 +90,10 @@ export default {
             $('html, body').animate({scrollTop: 0}, 800);
         }).catch(resp => {
             context.commit(SET_LOADING, false);
-            toastr["error"]("An error occurred when submitting the survey. Please try again", "Error");
+            if(resp.response.status !== 422){
+                toastr["error"]("An error occurred, try again.", "Error");
+            }
+            context.commit(SET_ERRORS, resp.response.data.errors);
             throw resp;
         })
     },
