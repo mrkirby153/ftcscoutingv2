@@ -7,7 +7,7 @@ use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TeamPolicy extends BasePolicy {
-    use HandlesAuthorization;
+    use HandlesAuthorization, GrantsSuperAdmin;
 
     /**
      * Determine whether the user can view the team.
