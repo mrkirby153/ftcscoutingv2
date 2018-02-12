@@ -73,7 +73,7 @@
         <div class="ui container">
             <p>
                 FTC Scouting @if($git_hash != null)- {{$git_hash}}@endif<br/>
-                Copyright &copy; 2016-2017<br/>
+                Copyright &copy; 2016-2018<br/>
                 Made with <i class="heart icon"></i> by <a href="https://www.mrkirby153.com">Austin Whyte</a><br/>
                 <a href="https://github.com/mrkirby153/ftcscoutingv2" target="_blank"><i class="github icon"></i></a>
             </p>
