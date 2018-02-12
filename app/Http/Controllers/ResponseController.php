@@ -44,7 +44,7 @@ class ResponseController extends Controller {
     }
 
     public function getResponsesForSummary(Survey $survey, $team) {
-        return $this->response->whereTeamNumber($team)->whereSurveyId($survey->id)->with('data', 'data.question')->get();
+        return $this->response->whereTeamNumber($team)->whereSurveyId($survey->id)->with('data', 'data.question')->orderBy('match_number', 'asc')->get();
     }
 
     public function getResponse(Response $response) {

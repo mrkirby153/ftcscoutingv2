@@ -11,12 +11,14 @@
             <table class="ui table" v-if="responses">
                 <thead>
                 <tr>
-                    <th v-for="q in transformed">{{q.name}}</th>
+                    <th>Match Number</th>
+                    <th v-for="q in questions">{{q.question_name}}</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="d in questionData">
-                    <td v-for="d1 in d">{{decode(d1)}}</td>
+                <tr v-for="response in responses">
+                    <td>{{response.match_number}}</td>
+                    <td v-for="question in questions">{{getResponseData(response, question.id)}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -32,47 +34,14 @@
     export default {
         data() {
             return {
-                responses: undefined
+                responses: undefined,
+                survey: undefined
             }
         },
 
         computed: {
-            transformed() {
-                try {
-                    let data = {};
-                    this.responses.forEach(response => {
-                        // Sort the data here because we can't easily do it in the backend
-                        response.data.sort((o1, o2) => {
-                            return o1.question.order - o2.question.order;
-                        });
-                        response.data.forEach(rData => {
-                            if (data[rData.question.order] === undefined) {
-                                data[rData.question.order] = {
-                                    name: rData.question.question_name,
-                                    data: []
-                                };
-                            }
-                            data[rData.question.order].data.push(rData.response_data);
-                        })
-                    });
-
-                    return data;
-                } catch (e) {
-                    console.log(e);
-                    throw e;
-                }
-            },
-            questionData() {
-                let data = [];
-                let index = 0;
-                this.responses.forEach(response => {
-                    let r = [];
-                    response.data.forEach(rData => {
-                        r.push(rData.response_data);
-                    });
-                    data[index++] = r;
-                });
-                return data;
+            questions(){
+                return this.survey.questions;
             }
         },
 
@@ -87,9 +56,22 @@
                     team: this.$route.params.team
                 })).then(resp => {
                     this.responses = resp.data;
+                });
+                axios.get(route('survey.get', {
+                    survey: this.$route.params.id,
+                })).then(resp => {
+                    this.survey = resp.data;
                 })
             },
-
+            getResponseData(response, question) {
+                for (let i = 0; i < response.data.length; i++) {
+                    let data = response.data[i];
+                    if (data.question_id == question) {
+                        return this.decode(data.response_data);
+                    }
+                }
+                return ""
+            },
             decode(question) {
                 if (question instanceof Array) {
                     let d = "";
