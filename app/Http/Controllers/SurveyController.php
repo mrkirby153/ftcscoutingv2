@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Jobs\DeleteSurvey;
 use App\Models\Surveys\PINData;
 use App\Models\Surveys\Question;
 use App\Models\Surveys\ResponseData;
 use App\Models\Surveys\Survey;
 use App\Models\Team;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Keygen\Keygen;
+use Maatwebsite\Excel\Excel;
 use PHPUnit\Framework\Constraint\RegularExpression;
 
 class SurveyController extends Controller {
@@ -144,11 +147,11 @@ class SurveyController extends Controller {
         $matchNumber = $request->get('match_number');
         $teamNumber = $request->get('team_number');
         // Check if there's a response already
-        if($survey->responses()->whereTeamNumber($teamNumber)->whereMatchNumber($matchNumber)->exists()){
+        if ($survey->responses()->whereTeamNumber($teamNumber)->whereMatchNumber($matchNumber)->exists()) {
             // The survey exists, we should return that to the user
             return response()->json([
                 'errors' => [
-                   'match_number' => ['This match has already been recorded.']
+                    'match_number' => ['This match has already been recorded.']
                 ]
             ], 422);
         }
@@ -177,7 +180,7 @@ class SurveyController extends Controller {
         return $question;
     }
 
-    public function setArchived(Request $request, Survey $survey){
+    public function setArchived(Request $request, Survey $survey) {
         $survey->archived = $request->get('archived') == "true";
         $survey->save();
         return $survey;
@@ -193,5 +196,19 @@ class SurveyController extends Controller {
         }
 
         return ++$num;
+    }
+
+    public function showTable(Survey $survey) {
+        $survey->load('questions', 'responses', 'responses.data');
+        return view('overview')->with(['questions' => $survey->questions, 'responses' => $survey->responses]);
+    }
+
+    public function excel(Survey $survey) {
+        $survey->load('questions', 'responses', 'responses.data');
+        return App::make('excel')->create('export_' . str_slug($survey->name) . '_' . Carbon::now()->toDateTimeString(), function ($excel) use ($survey) {
+            $excel->sheet($survey->name, function ($sheet) use ($survey) {
+                $sheet->loadView('overview')->with('questions', $survey->questions)->with('responses', $survey->responses);
+            });
+        })->download('xlsx');
     }
 }

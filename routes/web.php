@@ -16,6 +16,9 @@ Route::impersonate();
 Auth::routes();
 
 Route::get('/invite/{member}/accept', 'TeamMemberController@acceptInvite')->name('invite.accept');
+
+Route::get('/survey/{survey}/table', 'SurveyController@showTable');
+Route::get('/survey/{survey}/excel', 'SurveyController@excel')->name('survey.export');
 Route::get('{any}', function () {
     return view('application');
 })->where('any', '.*');

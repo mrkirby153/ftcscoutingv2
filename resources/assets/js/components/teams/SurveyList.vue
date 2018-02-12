@@ -48,6 +48,7 @@
                             <span v-if="survey.archived">Unarchive</span>
                         </button>
                         <button class="ui red button" @click="confirmDelete(survey.id)">Delete</button>
+                        <a :href="'/survey/'+survey.id+'/excel'" class="ui button" data-tooltip="Export the survey to an Excel sheet">Export</a>
                         <div slot="no-access">
                             <router-link :to="'/survey/'+survey.id" class="ui green button" :disabled="survey.archived">Take Survey</router-link>
                             <router-link :to="'/survey/'+survey.id+'/responses'" class="ui labeled button">
