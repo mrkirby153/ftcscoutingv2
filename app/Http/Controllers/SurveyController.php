@@ -114,9 +114,15 @@ class SurveyController extends Controller {
         $question->save();
     }
 
-    public function get($survey) {
-        $survey = Survey::whereId($survey);
-        return $survey->with('questions')->first();
+    public function get(Request $request, $survey) {
+        $survey = Survey::whereId($survey)->first();
+        $survey->load('questions');
+        if ($request->has('load')) {
+            foreach (explode(",", $request->get('load')) as $relation) {
+                $survey->load($relation);
+            }
+        }
+        return $survey;
     }
 
     public function getQuestion($question) {

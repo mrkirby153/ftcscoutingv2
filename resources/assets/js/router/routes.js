@@ -103,6 +103,14 @@ let routes = [
         name: 'survey.responses'
     },
     {
+        path: '/survey/:id/overview',
+        component: require('../components/survey/response/SurveyOverview.vue'),
+        meta: {
+            auth: true
+        },
+        name: 'survey.overview'
+    },
+    {
         path: '/survey/:id/responses/team/:team',
         component: require('../components/survey/response/TeamOverview.vue'),
         meta: {

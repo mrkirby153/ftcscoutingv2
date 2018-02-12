@@ -30,7 +30,11 @@
                 </tr>
                 </tbody>
             </table>
-            <button class="ui fluid button" @click.prevent="getRanked">Rank Teams by PIN</button>
+            <div class="buttons">
+                <button class="ui button" @click.prevent="getRanked">Rank Teams by PIN</button>
+                <router-link :to="{'name':'survey.overview', params: {id: $route.params.id}}" class="ui button">Survey Overview</router-link>
+                <a :href="'/survey/'+$route.params.id+'/excel'" class="ui button" data-tooltip="Export the survey to an Excel sheet">Export</a>
+            </div>
         </div>
         <div class="ui modal" id="ranked">
             <div class="header">Teams Ranked by PIN</div>
